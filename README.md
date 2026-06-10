@@ -14,18 +14,53 @@
 ### 1. Clone and Install
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/dayflow.git
+git clone https://github.com/Pavan0-18/DayFlow.git
 cd dayflow
 npm install
 ```
 
 ### 2. Environment Setup
 
-Copy `.env.example` to `.env.local` and fill in your credentials:
+Copy `
+# ══════════════════════════════════════
+# NEXTAUTH
+# ══════════════════════════════════════
+# Generate secret: openssl rand -base64 32
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=
+# ══════════════════════════════════════
+# OAUTH PROVIDERS
+# ══════════════════════════════════════
+# Google: console.cloud.google.com → Credentials
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+# ══════════════════════════════════════
+# DATABASE (Supabase)
+# ══════════════════════════════════════
+# With pgbouncer (for Prisma in serverless):
+DATABASE_URL=
+# Direct connection (for migrations):
+DIRECT_URL=
 
-```bash
-cp .env.example .env.local
-```
+# ══════════════════════════════════════
+# SUPABASE
+# ══════════════════════════════════════
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+
+# ══════════════════════════════════════
+# AI (OpenRouter)
+# ══════════════════════════════════════
+# Get from: openrouter.ai/keys (free tier available)
+OPENROUTER_API_KEY=
+
+# ══════════════════════════════════════
+# RATE LIMITING (Upstash)
+# ══════════════════════════════════════
+UPSTASH_REDIS_REST_URL=
+UPSTASH_REDIS_REST_TOKEN=
+` to `.env.local` and fill in your credentials:
 
 Required environment variables:
 
@@ -71,13 +106,6 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Account Setup Guide
-
-### GitHub (5 minutes)
-
-1. Go to [github.com](https://github.com) → "Sign up" → "Continue with Google"
-2. Pick a username → Select **Free** plan
-3. Click **"New repository"** → Name: `dayflow` → Public → ✅ Add a README → **Create repository**
 
 ### Supabase — Database (5 minutes)
 
@@ -108,13 +136,6 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 2. Create an API key
 3. Copy **OPENROUTER_API_KEY**
 
-### Vercel — Deployment (5 minutes)
-
-1. Go to [vercel.com](https://vercel.com) → "Sign up" → "Continue with GitHub"
-2. **"Add New Project"** → Import your `dayflow` repository
-3. Add all environment variables from `.env.local`
-4. Click **Deploy**
-5. After deploy succeeds → copy your app URL → update Google OAuth redirect URI
 
 ## Project Structure
 
