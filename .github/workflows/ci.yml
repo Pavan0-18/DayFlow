@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - run: npm ci
+      
+      - run: npx tsc --noEmit
+        env:
+          DATABASE_URL: "postgresql://mock:mock@localhost:5432/mock"
+          DIRECT_URL: "postgresql://mock:mock@localhost:5432/mock"
+          NEXTAUTH_SECRET: "ci-mock-secret"
+          NEXTAUTH_URL: "http://localhost:3000"
+          GOOGLE_CLIENT_ID: "mock"
+          GOOGLE_CLIENT_SECRET: "mock"
+          OPENROUTER_API_KEY: "mock"
+          UPSTASH_REDIS_REST_URL: "https://mock.upstash.io"
+          UPSTASH_REDIS_REST_TOKEN: "mock"
+      
+      - run: npm run lint
+        env:
+          DATABASE_URL: "postgresql://mock:mock@localhost:5432/mock"
+          DIRECT_URL: "postgresql://mock:mock@localhost:5432/mock"
+          NEXTAUTH_SECRET: "ci-mock-secret"
+          NEXTAUTH_URL: "http://localhost:3000"
+          GOOGLE_CLIENT_ID: "mock"
+          GOOGLE_CLIENT_SECRET: "mock"
+          OPENROUTER_API_KEY: "mock"
+          UPSTASH_REDIS_REST_URL: "https://mock.upstash.io"
+          UPSTASH_REDIS_REST_TOKEN: "mock"
