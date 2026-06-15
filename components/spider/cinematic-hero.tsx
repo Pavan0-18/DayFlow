@@ -322,7 +322,7 @@ export function CinematicHero({ onComplete }: CinematicHeroProps) {
 
                 <div className="mx-auto mt-8 max-w-md">
                   <p className="text-base font-medium text-slate-400">
-                    A hero is needed. The city's safety depends on daily missions and commitments.
+                    A hero is needed. The city&apos;s safety depends on daily missions and commitments.
                     Every completed task makes a difference.
                   </p>
                 </div>
