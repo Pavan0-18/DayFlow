@@ -39,13 +39,12 @@ export function useSettings() {
     onSuccess: async (data, variables) => {
       queryClient.setQueryData([SETTINGS_KEY], data)
 
-      if ('reminderEnabled' in variables && variables.reminderEnabled) {
-        await requestNotificationPermission()
-      }
-      if ('eveningSummary' in variables && variables.eveningSummary) {
-        await requestNotificationPermission()
-      }
-      if ('achievementAlerts' in variables && variables.achievementAlerts) {
+      const needsPermission =
+        ('reminderEnabled' in variables && variables.reminderEnabled) ||
+        ('eveningSummary' in variables && variables.eveningSummary) ||
+        ('achievementAlerts' in variables && variables.achievementAlerts)
+
+      if (needsPermission) {
         await requestNotificationPermission()
       }
 

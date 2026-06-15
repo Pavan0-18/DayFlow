@@ -71,9 +71,8 @@ export class DailyLogRepository {
   async syncActiveTasks(
     userId: string,
     date: Date,
-    existingLog?: LogWithItems
+    log: LogWithItems
   ): Promise<LogWithItems> {
-    const log = existingLog ?? (await this.findOrCreate(userId, date))
     const activeTasks = await taskRepository.findActiveByUser(userId)
     const existingTaskIds = new Set(log.items.map((item) => item.taskId))
 

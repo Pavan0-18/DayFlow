@@ -2,12 +2,16 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { ScheduledTaskWithTask, Priority } from '@/types'
-import { formatISO, startOfDay } from 'date-fns'
+import { startOfDay } from 'date-fns'
 
 const SCHEDULE_KEY = 'schedule'
 
+function toUTCDateString(date: Date): string {
+  return startOfDay(date).toISOString()
+}
+
 async function fetchSchedule(date: Date): Promise<ScheduledTaskWithTask[]> {
-  const formattedDate = formatISO(startOfDay(date))
+  const formattedDate = toUTCDateString(date)
   const response = await fetch(`/api/schedule?date=${encodeURIComponent(formattedDate)}`)
   if (!response.ok) throw new Error('Failed to fetch schedule')
   const { data } = await response.json()
@@ -29,7 +33,7 @@ async function createScheduleApi(input: CreateScheduleInput): Promise<ScheduledT
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       ...input,
-      date: formatISO(startOfDay(input.date)),
+      date: toUTCDateString(input.date),
     }),
   })
   if (!response.ok) throw new Error('Failed to create schedule')
@@ -46,7 +50,7 @@ async function updateScheduleApi({
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       ...input,
-      date: input.date ? formatISO(startOfDay(input.date)) : undefined,
+      date: input.date ? toUTCDateString(input.date) : undefined,
     }),
   })
   if (!response.ok) throw new Error('Failed to update schedule')
@@ -65,7 +69,7 @@ async function autoScheduleApi(date: Date): Promise<ScheduledTaskWithTask[]> {
   const response = await fetch('/api/schedule/auto', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ date: formatISO(startOfDay(date)) }),
+    body: JSON.stringify({ date: toUTCDateString(date) }),
   })
   if (!response.ok) throw new Error('Failed to auto-schedule')
   const { data } = await response.json()

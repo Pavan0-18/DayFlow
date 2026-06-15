@@ -3,10 +3,10 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 async function main() {
-  console.log('🌱 Seeding database...')
-
-  // No default seed data needed - onboarding service creates starter tasks per user
-  console.log('✅ Database seeded successfully')
+  console.log('🌱 DayFlow database seed')
+  console.log('ℹ️  New user onboarding is handled at runtime by the onboarding service.')
+  console.log('   It creates starter tasks and default settings for each new user.')
+  console.log('✅ Seed complete.')
 }
 
 main()

@@ -52,6 +52,10 @@ export class ScheduleRepository {
   }
 
   async update(id: string, data: UpdateScheduledTaskInput, userId: string): Promise<ScheduledTask> {
+    const existing = await this.findById(id, userId)
+    if (!existing) {
+      throw new Error('Scheduled task not found')
+    }
     const task = await db.scheduledTask.update({
       where: { id },
       data,
@@ -60,6 +64,10 @@ export class ScheduleRepository {
   }
 
   async delete(id: string, userId: string): Promise<void> {
+    const existing = await this.findById(id, userId)
+    if (!existing) {
+      throw new Error('Scheduled task not found')
+    }
     await db.scheduledTask.delete({
       where: { id },
     })

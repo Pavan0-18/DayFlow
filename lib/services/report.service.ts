@@ -15,7 +15,7 @@ export interface CategoryBreakdown {
   category: string
   completed: number
   total: number
-  percentage: number
+  rate: number
 }
 
 export class ReportService {
@@ -83,9 +83,9 @@ export class ReportService {
         category,
         completed: stats.completed,
         total: stats.total,
-        percentage: stats.total > 0 ? Math.round((stats.completed / stats.total) * 100) : 0,
+        rate: stats.total > 0 ? Math.round((stats.completed / stats.total) * 100) : 0,
       }))
-      .sort((a, b) => b.percentage - a.percentage)
+      .sort((a, b) => b.rate - a.rate)
   }
 
   async getMostSkippedTasks(userId: string, days: number = 30): Promise<{ taskId: string; title: string; skips: number }[]> {

@@ -98,14 +98,13 @@ export class ReportRepository {
       }
     })
 
-    const validDays = dailyRates.filter((d) => d.rate > 0)
-    const averageRate = validDays.length > 0
-      ? Math.round(validDays.reduce((sum, d) => sum + d.rate, 0) / validDays.length)
+    const averageRate = dailyRates.length > 0
+      ? Math.round(dailyRates.reduce((sum, d) => sum + d.rate, 0) / dailyRates.length)
       : 0
 
     const sortedByRate = [...dailyRates].sort((a, b) => b.rate - a.rate)
-    const bestDay = sortedByRate[0]?.rate > 0 ? sortedByRate[0] : null
-    const worstDay = sortedByRate[sortedByRate.length - 1]?.rate < 100 ? sortedByRate[sortedByRate.length - 1] : null
+    const bestDay = sortedByRate[0]
+    const worstDay = sortedByRate[sortedByRate.length - 1]
 
     const totalCompleted = logs.reduce((sum, log) => sum + log.items.filter((i) => i.completed).length, 0)
 
@@ -161,9 +160,8 @@ export class ReportRepository {
       }
     })
 
-    const validDays = dailyRates.filter((d) => d.rate > 0)
-    const averageRate = validDays.length > 0
-      ? Math.round(validDays.reduce((sum, d) => sum + d.rate, 0) / validDays.length)
+    const averageRate = dailyRates.length > 0
+      ? Math.round(dailyRates.reduce((sum, d) => sum + d.rate, 0) / dailyRates.length)
       : 0
 
     const totalCompleted = logs.reduce((sum, log) => sum + log.items.filter((i) => i.completed).length, 0)
@@ -172,12 +170,12 @@ export class ReportRepository {
     const weeks: { start: Date; totalRate: number; count: number }[] = []
     for (let i = 0; i < dailyRates.length; i += 7) {
       const weekDays = dailyRates.slice(i, i + 7)
-      const validWeekDays = weekDays.filter((d) => d.rate > 0)
-      if (validWeekDays.length > 0) {
+      const activeWeekDays = weekDays.filter((d) => d.rate > 0)
+      if (activeWeekDays.length > 0) {
         weeks.push({
           start: weekDays[0].date,
-          totalRate: validWeekDays.reduce((sum, d) => sum + d.rate, 0),
-          count: validWeekDays.length,
+          totalRate: activeWeekDays.reduce((sum, d) => sum + d.rate, 0),
+          count: activeWeekDays.length,
         })
       }
     }

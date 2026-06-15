@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { autoScheduleService } from "@/lib/services"
 import { checkRateLimit } from "@/lib/rate-limit"
+import { autoScheduleSchema } from "@/lib/validations/schedule.schema"
 import { startOfDay } from "date-fns"
 
 // POST /api/schedule/auto - Auto-generate schedule
@@ -19,7 +20,14 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json()
-    const date = body.date ? new Date(body.date) : new Date()
+    const parsed = autoScheduleSchema.safeParse(body)
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: "Invalid date", details: parsed.error.flatten() },
+        { status: 400 }
+      )
+    }
+    const date = parsed.data.date ? new Date(parsed.data.date) : new Date()
     const normalizedDate = startOfDay(date)
 
     // Generate schedule suggestions

@@ -80,23 +80,17 @@ export class StreakService {
       }
     }
 
-    // Check if streak is at risk (no completion today and yesterday)
-    const yesterday = new Date(today)
-    yesterday.setDate(yesterday.getDate() - 1)
-
+    // Check if streak is at risk (today not yet completed and it's after 4pm)
     const todayLog = logs.find((l) => {
       const d = new Date(l.date)
       d.setHours(0, 0, 0, 0)
       return d.getTime() === today.getTime()
     })
 
-    const yesterdayLog = logs.find((l) => {
-      const d = new Date(l.date)
-      d.setHours(0, 0, 0, 0)
-      return d.getTime() === yesterday.getTime()
-    })
-
-    const isAtRisk = currentStreak > 0 && (!yesterdayLog || yesterdayLog.items.filter((i) => i.completed).length === 0)
+    const now = new Date()
+    const isLateInDay = now.getHours() >= 16
+    const todayNotComplete = !todayLog || todayLog.items.filter((i) => i.completed).length === 0
+    const isAtRisk = currentStreak > 0 && todayNotComplete && isLateInDay
 
     return {
       currentStreak,

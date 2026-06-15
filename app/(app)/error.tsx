@@ -11,8 +11,8 @@ export default function Error({
 }) {
   return (
     <ErrorState
-      title="Something went wrong"
-      description={error.message || "An unexpected error occurred."}
+      title="⚠️ Symbiote Corruption Detected"
+      description={error.message || "The system has encountered a symbiote-level threat. Your connection to the Spider-Verse may be compromised. Try again or contact the command center."}
       onRetry={reset}
     />
   )

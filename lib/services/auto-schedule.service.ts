@@ -22,11 +22,7 @@ export class AutoScheduleService {
   async generateSchedule(userId: string, date: Date): Promise<ScheduledTaskSuggestion[]> {
     const activeTasks = await taskRepository.findActiveByUser(userId)
     
-    // Sort by priority (HIGH -> MEDIUM -> LOW) then by sortOrder
-    const sortedTasks = activeTasks.sort((a, b) => {
-      const priorityOrder = { HIGH: 0, MEDIUM: 1, LOW: 2 }
-      return priorityOrder[a.sortOrder > b.sortOrder ? 'HIGH' : 'LOW'] - priorityOrder[b.sortOrder > a.sortOrder ? 'HIGH' : 'LOW']
-    })
+    const sortedTasks = activeTasks.sort((a, b) => a.sortOrder - b.sortOrder)
 
     const scheduled: ScheduledTaskSuggestion[] = []
     const timeSlots: { start: number; end: number; used: boolean }[] = []

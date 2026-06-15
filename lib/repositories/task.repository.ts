@@ -56,6 +56,10 @@ export class TaskRepository {
   }
 
   async delete(id: string, userId: string): Promise<void> {
+    const existing = await this.findById(id, userId)
+    if (!existing) {
+      throw new Error('Task not found')
+    }
     await db.task.delete({
       where: { id },
     })

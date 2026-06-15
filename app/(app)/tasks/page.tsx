@@ -1,19 +1,30 @@
 "use client"
 
 import { useState } from "react"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { Task } from "@prisma/client"
 import { useTasks } from "@/hooks/use-tasks"
 import { TaskRow } from "@/components/molecules/task-row"
 import { TaskFormSheet } from "@/components/molecules/task-form-sheet"
-import { PageHeader } from "@/components/shared/page-header"
 import { EmptyState } from "@/components/shared/empty-state"
 import { ErrorState } from "@/components/shared/error-state"
 import { ConfirmDialog } from "@/components/shared/confirm-dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
-import { Plus, Search, CheckSquare } from "lucide-react"
+import { GlassPanel } from "@/components/spider/glass-panel"
+import { MissionCard } from "@/components/spider/mission-card"
+import { ThreatLevel } from "@/components/spider/threat-level"
+import { SpiderButton } from "@/components/spider/spider-button"
+import { cn } from "@/lib/utils"
+import {
+  getMissionStatus,
+  categoryToPriority,
+  categoryToThreatLevel,
+  CATEGORY_DISTRICTS,
+  CATEGORY_THREAT_TYPES,
+} from "@/lib/constants/spider-theme"
+import { Plus, Search, Target, Skull } from "lucide-react"
 import {
   DndContext,
   closestCenter,
@@ -32,7 +43,9 @@ import {
 import { CATEGORIES } from "@/lib/constants/categories"
 import { CreateTaskInput } from "@/lib/validations/task.schema"
 
-export default function TasksPage() {
+
+
+export default function MissionsPage() {
   const {
     activeTasks,
     inactiveTasks,
@@ -51,6 +64,7 @@ export default function TasksPage() {
   const [sheetOpen, setSheetOpen] = useState(false)
   const [editingTask, setEditingTask] = useState<Task | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<Task | null>(null)
+  const [viewMode, setViewMode] = useState<"mission" | "list">("mission")
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -115,11 +129,13 @@ export default function TasksPage() {
     setEditingTask(null)
   }
 
+
+
   if (error) {
     return (
       <ErrorState
-        title="Failed to load tasks"
-        description="There was an error loading your tasks."
+        title="Mission Board Offline"
+        description="Unable to retrieve mission data. The command center may be experiencing interference."
         onRetry={() => window.location.reload()}
       />
     )
@@ -130,75 +146,155 @@ export default function TasksPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader
-        title="My Tasks"
-        description={`${activeTaskCount} active tasks`}
-        action={{
-          label: "Add Task",
-          icon: Plus,
-          onClick: openCreateSheet,
-        }}
-      />
-
-      {isNearLimit && !isAtLimit && (
-        <div className="rounded-lg bg-amber-50 p-4 text-sm text-amber-600 dark:bg-amber-950/20">
-          You&apos;re approaching the limit of 20 active tasks ({activeTaskCount}/20)
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex items-center justify-between"
+      >
+        <div className="flex items-center gap-4">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#A855F7]/20 to-[#E11D48]/20 border border-white/10">
+            <Target className="h-6 w-6 text-[#A855F7]" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-white">Mission Board</h1>
+            <p className="text-sm text-muted-foreground">
+              {activeTaskCount} active {activeTaskCount === 1 ? "mission" : "missions"}
+            </p>
+          </div>
         </div>
-      )}
-      {isAtLimit && (
-        <div className="rounded-lg bg-red-50 p-4 text-sm text-red-600 dark:bg-red-950/20">
-          You&apos;ve reached the limit of 20 active tasks. Deactivate some tasks to add more.
-        </div>
-      )}
-
-      <div className="relative flex-1">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-        <Input
-          placeholder="Search tasks..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="pl-9"
-        />
-      </div>
-
-      <div className="flex flex-wrap gap-2">
-        <Badge
-          variant={selectedCategory === null ? "default" : "outline"}
-          className="cursor-pointer"
-          onClick={() => setSelectedCategory(null)}
-        >
-          All
-        </Badge>
-        {CATEGORIES.map((category) => (
-          <Badge
-            key={category}
-            variant={selectedCategory === category ? "default" : "outline"}
-            className="cursor-pointer"
-            onClick={() => setSelectedCategory(category)}
+        <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setViewMode(viewMode === "mission" ? "list" : "mission")}
+            className="text-xs text-muted-foreground hover:text-white"
           >
-            {category}
-          </Badge>
-        ))}
-      </div>
+            {viewMode === "mission" ? "📋 List View" : "🕷️ Mission View"}
+          </Button>
+          <SpiderButton webEffect onClick={openCreateSheet} disabled={isAtLimit}>
+            <Plus className="h-4 w-4" />
+            New Mission
+          </SpiderButton>
+        </div>
+      </motion.div>
 
-      <div className="space-y-3">
-        <h3 className="font-semibold">Active Tasks</h3>
+      {/* Limits warning */}
+      <AnimatePresence>
+        {isNearLimit && !isAtLimit && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0 }}
+            className="rounded-lg border border-yellow-500/30 bg-yellow-500/10 p-3 text-sm text-yellow-400"
+          >
+            ⚠️ Approaching maximum mission capacity ({activeTaskCount}/20)
+          </motion.div>
+        )}
+        {isAtLimit && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0 }}
+            className="rounded-lg border border-red-500/30 bg-red-500/10 p-3 text-sm text-red-400"
+          >
+            🚫 Maximum missions reached ({activeTaskCount}/20). Complete or deactivate some missions first.
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Search & Filters */}
+      <GlassPanel variant="default" className="p-4 space-y-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            placeholder="Scan for missions..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-9 bg-white/5 border-white/10 text-white placeholder:text-muted-foreground"
+          />
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          <Badge
+            variant={selectedCategory === null ? "default" : "outline"}
+            className={cn(
+              "cursor-pointer transition-all",
+              selectedCategory === null && "bg-[#E11D48] text-white"
+            )}
+            onClick={() => setSelectedCategory(null)}
+          >
+            All Threats
+          </Badge>
+          {CATEGORIES.map((category) => (
+            <Badge
+              key={category}
+              variant={selectedCategory === category ? "default" : "outline"}
+              className={cn(
+                "cursor-pointer transition-all",
+                selectedCategory === category && "bg-[#1D4ED8] text-white"
+              )}
+              onClick={() => setSelectedCategory(category)}
+            >
+              {category}
+            </Badge>
+          ))}
+        </div>
+      </GlassPanel>
+
+      {/* Mission List */}
+      <div className="space-y-4">
+        <div className="flex items-center gap-3">
+          <div className="h-0.5 flex-1 bg-gradient-to-r from-[#E11D48]/50 to-transparent" />
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <span className="inline-block h-2 w-2 rounded-full bg-red-500 animate-pulse" />
+            Active Missions
+          </h3>
+          <div className="h-0.5 flex-1 bg-gradient-to-l from-[#E11D48]/50 to-transparent" />
+        </div>
+
         {isLoading ? (
-          <div className="space-y-3">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="h-16 rounded-xl bg-muted" />
+          <div className="grid gap-3 sm:grid-cols-2">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="h-24 rounded-xl bg-white/5 animate-pulse" />
             ))}
           </div>
         ) : filteredActiveTasks.length === 0 ? (
           <EmptyState
-            icon={CheckSquare}
-            title="No active tasks"
-            description="Add some tasks to get started with your daily routine."
+            icon={Target}
+            title="No Active Missions"
+            description="The city is peaceful. Create a new mission to start protecting New York."
             action={{
-              label: "Add Task",
+              label: "New Mission",
               onClick: openCreateSheet,
             }}
           />
+        ) : viewMode === "mission" ? (
+          <div className="grid gap-3 sm:grid-cols-2">
+            {filteredActiveTasks.map((task, index) => {
+              // Derive threat level and priority from the task's category rather than hardcoded values
+              const categoryPriority = categoryToPriority(task.category)
+              const categoryThreatLevel = categoryToThreatLevel(task.category)
+              return (
+                <motion.div
+                  key={task.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                >
+                  <MissionCard
+                    title={task.title}
+                    status={getMissionStatus(false, task.isActive)}
+                    threatLevel={categoryThreatLevel}
+                    priority={categoryPriority}
+                    villain={CATEGORY_THREAT_TYPES[task.category] || "Unknown Threat"}
+                    location={CATEGORY_DISTRICTS[task.category] || "NYC"}
+                    // No progress bar on the mission board — progress is only shown in daily context
+                  />
+                </motion.div>
+              )
+            })}
+          </div>
         ) : (
           <DndContext
             sensors={sensors}
@@ -234,25 +330,29 @@ export default function TasksPage() {
         )}
       </div>
 
+      {/* Inactive Missions */}
       {filteredInactiveTasks.length > 0 && (
         <div className="space-y-3">
           <button
             type="button"
-            className="flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground"
+            className="flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-white transition-colors"
             onClick={() => setShowInactive(!showInactive)}
           >
-            Inactive Tasks ({filteredInactiveTasks.length})
-            <span>{showInactive ? "▼" : "▶"}</span>
+            <Skull className="h-4 w-4" />
+            Archived Missions ({filteredInactiveTasks.length})
+            <span className="ml-1">{showInactive ? "▼" : "▶"}</span>
           </button>
-          {showInactive && (
-            <div className="space-y-2">
-              {filteredInactiveTasks.map((task) => (
-                <motion.div
-                  key={task.id}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                >
+          <AnimatePresence>
+            {showInactive && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="space-y-2 overflow-hidden"
+              >
+                {filteredInactiveTasks.map((task) => (
                   <TaskRow
+                    key={task.id}
                     id={task.id}
                     title={task.title}
                     icon={task.icon}
@@ -262,13 +362,14 @@ export default function TasksPage() {
                     onToggleActive={(isActive) => handleToggleActive(task.id, isActive)}
                     onEdit={() => openEditSheet(task)}
                   />
-                </motion.div>
-              ))}
-            </div>
-          )}
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       )}
 
+      {/* Task Form Sheet */}
       <TaskFormSheet
         open={sheetOpen}
         onOpenChange={setSheetOpen}
@@ -289,9 +390,9 @@ export default function TasksPage() {
       <ConfirmDialog
         isOpen={!!deleteTarget}
         onClose={() => setDeleteTarget(null)}
-        title="Delete task?"
-        description="This will permanently remove the task and its history."
-        confirmText="Delete"
+        title="Delete Mission?"
+        description="This will permanently remove this mission and all its history from the command center."
+        confirmText="Delete Mission"
         isDestructive
         isLoading={deleteTask.isPending}
         onConfirm={handleDelete}
@@ -299,3 +400,5 @@ export default function TasksPage() {
     </div>
   )
 }
+
+

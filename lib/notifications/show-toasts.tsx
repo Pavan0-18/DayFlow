@@ -1,7 +1,8 @@
 'use client'
 
 import { toast } from 'sonner'
-import { CheckCircle2, Info, Sparkles, Trophy, XCircle } from 'lucide-react'
+import { CheckCircle2, Info, Sparkles, Trophy, XCircle, RotateCcw } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 export interface UnlockedAchievement {
   id: string
@@ -59,19 +60,33 @@ export function showAchievementToasts(achievements: UnlockedAchievement[]) {
   })
 }
 
-export function showTaskCompletedToast(title: string) {
+export function showTaskCompletedToast(title: string, onUndo?: () => void) {
   toast.custom(
-    () => (
+    (t) => (
       <div className="flex items-center gap-3 rounded-xl border border-green-200/60 bg-gradient-to-r from-green-50 to-emerald-50 px-4 py-3 shadow-lg dark:border-green-900/40 dark:from-green-950/80 dark:to-emerald-950/60">
         <CheckCircle2 className="h-5 w-5 text-green-600 dark:text-green-400" />
-        <div>
+        <div className="flex-1 min-w-0">
           <p className="text-sm font-medium">Task completed!</p>
-          <p className="text-xs text-muted-foreground">{title}</p>
+          <p className="text-xs text-muted-foreground truncate">{title}</p>
         </div>
-        <Sparkles className="h-4 w-4 text-amber-500" />
+        {onUndo && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              onUndo()
+              toast.dismiss(t)
+            }}
+            className="h-7 px-2 text-xs border-green-500/30 text-green-700 dark:text-green-400 hover:bg-green-500/10"
+          >
+            <RotateCcw className="h-3 w-3 mr-1" />
+            Undo
+          </Button>
+        )}
+        <Sparkles className="h-4 w-4 text-amber-500 shrink-0" />
       </div>
     ),
-    { duration: 3000 }
+    { duration: 5000 }
   )
 }
 

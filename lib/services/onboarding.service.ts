@@ -1,66 +1,67 @@
 import { taskRepository, settingsRepository } from '../repositories'
 import { CreateTaskInput } from '../validations/task.schema'
+import { db } from '../db'
 
 const STARTER_TASKS: CreateTaskInput[] = [
   {
-    title: 'Morning Routine',
-    description: 'Start your day with a consistent routine',
+    title: 'Morning Patrol',
+    description: 'Swing into action and start your day with purpose',
     category: 'Health',
-    color: '#F59E0B',
-    icon: '🌅',
+    color: '#E11D48',
+    icon: '🕷️',
     isActive: true,
   },
   {
-    title: 'Drink 8 glasses of water',
-    description: 'Stay hydrated throughout the day',
+    title: 'Web Fluid Hydration',
+    description: 'Stay hydrated for maximum web-slinging performance',
     category: 'Health',
     color: '#3B82F6',
     icon: '💧',
     isActive: true,
   },
   {
-    title: 'Exercise 30 minutes',
-    description: 'Move your body and stay active',
+    title: 'Hero Training',
+    description: '30 minutes of exercise to stay in crime-fighting shape',
     category: 'Fitness',
     color: '#22C55E',
-    icon: '🏃',
+    icon: '💪',
     isActive: true,
   },
   {
-    title: 'Read for 20 minutes',
-    description: 'Expand your knowledge and relax',
+    title: 'Daily Bugle Briefing',
+    description: 'Read and stay informed about city activity',
     category: 'Learning',
     color: '#8B5CF6',
-    icon: '📚',
+    icon: '📰',
     isActive: true,
   },
   {
-    title: 'Meditate',
-    description: 'Take time to clear your mind',
+    title: 'Spider-Sense Calibration',
+    description: 'Meditate and sharpen your reflexes',
     category: 'Mindfulness',
     color: '#EC4899',
     icon: '🧘',
     isActive: true,
   },
   {
-    title: 'Review daily goals',
-    description: 'Check in with your priorities',
+    title: 'Patrol Route Planning',
+    description: 'Review your daily missions and set priorities',
     category: 'Personal',
     color: '#6366F1',
-    icon: '📝',
+    icon: '🗺️',
     isActive: true,
   },
   {
-    title: 'Gratitude journal',
-    description: 'Write down things you are grateful for',
-    category: 'Mindfulness',
-    color: '#F97316',
-    icon: '🙏',
+    title: 'Ally Check-In',
+    description: 'Connect with someone in your network',
+    category: 'Social',
+    color: '#14B8A6',
+    icon: '💬',
     isActive: true,
   },
   {
-    title: 'Evening review',
-    description: 'Reflect on your day and plan tomorrow',
+    title: 'Night Patrol Debrief',
+    description: 'Log your heroics and plan tomorrow',
     category: 'Personal',
     color: '#64748B',
     icon: '🌙',
@@ -78,13 +79,26 @@ export class OnboardingService {
     const isNew = await this.isNewUser(userId)
     if (!isNew) return
 
-    // Create user settings
-    await settingsRepository.findOrCreate(userId)
+    await db.$transaction(async (tx) => {
+      // Create user settings
+      await settingsRepository.findOrCreate(userId)
 
-    // Create starter tasks
-    for (const task of STARTER_TASKS) {
-      await taskRepository.create(task, userId)
-    }
+      // Create starter tasks
+      for (const task of STARTER_TASKS) {
+        const maxOrder = await tx.task.findFirst({
+          where: { userId },
+          orderBy: { sortOrder: 'desc' },
+          select: { sortOrder: true },
+        })
+        await tx.task.create({
+          data: {
+            ...task,
+            userId,
+            sortOrder: (maxOrder?.sortOrder ?? -1) + 1,
+          },
+        })
+      }
+    })
   }
 
   async getStarterTasks(): Promise<CreateTaskInput[]> {

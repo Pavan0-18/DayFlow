@@ -33,7 +33,7 @@ export function showBrowserNotification(payload: BrowserNotificationPayload): bo
     new Notification(payload.title, {
       body: payload.body,
       tag: payload.tag,
-      icon: payload.icon ?? '/manifest.json',
+      icon: payload.icon ?? '/favicon.ico',
     })
     return true
   } catch {

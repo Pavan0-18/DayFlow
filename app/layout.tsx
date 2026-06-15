@@ -5,13 +5,13 @@ import { RootProviders } from "@/components/providers/root-providers"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "DayFlow - Daily Habit Tracker",
-  description: "Build habits that stick, every day. Track your daily activities, maintain streaks, and achieve your goals with AI-powered insights.",
-  keywords: ["habit tracker", "daily routine", "productivity", "goals", "streaks"],
-  authors: [{ name: "DayFlow" }],
+  title: "Spider-Verse OS — Hero Command Center",
+  description: "The city is counting on you. Manage missions, track threats, and become a legend in the Spider-Verse.",
+  keywords: ["spider-man", "spider-verse", "hero", "missions", "productivity", "command center"],
+  authors: [{ name: "Spider-Verse OS" }],
   openGraph: {
-    title: "DayFlow - Daily Habit Tracker",
-    description: "Build habits that stick, every day.",
+    title: "Spider-Verse OS — Hero Command Center",
+    description: "With great power comes great responsibility.",
     type: "website",
   },
 }
@@ -21,8 +21,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#020617" },
   ],
 }
 

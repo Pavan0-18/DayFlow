@@ -23,8 +23,6 @@ export class AchievementRepository {
       where: { userId },
     })
 
-    const unlockedIds = new Set(userAchievements.map((ua) => ua.achievementId))
-
     const allAchievements = ACHIEVEMENTS.map((achievement) => {
       const unlocked = userAchievements.find((ua) => ua.achievementId === achievement.id)
       return {
