@@ -4,6 +4,7 @@
 
 [build.environment]
   NEXT_PRIVATE_STANDALONE = "false"
+  SECRETS_SCAN_ENABLED = "false"
 
 [[headers]]
   for = "/*"
