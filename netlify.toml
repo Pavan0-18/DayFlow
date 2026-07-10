@@ -1,10 +1,18 @@
 [build]
   command = "npm run build"
-  publish = ".next"
 
 [build.environment]
   NEXT_PRIVATE_STANDALONE = "false"
   SECRETS_SCAN_ENABLED = "false"
+
+[context.production.environment]
+  NEXTAUTH_URL = "https://6a30347e765a4e0008910997--dayflow18.netlify.app"
+
+[context.deploy-preview.environment]
+  NEXTAUTH_URL = "https://6a30347e765a4e0008910997--dayflow18.netlify.app"
+
+[context.branch-deploy.environment]
+  NEXTAUTH_URL = "https://6a30347e765a4e0008910997--dayflow18.netlify.app"
 
 [[headers]]
   for = "/*"
