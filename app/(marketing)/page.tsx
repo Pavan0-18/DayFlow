@@ -1,6 +1,7 @@
 "use client"
 
 import { useSession } from "next-auth/react"
+import Image from "next/image"
 import { motion } from "framer-motion"
 import Link from "next/link"
 import { ArrowRight, Zap, Shield, Star, Target, LayoutDashboard } from "lucide-react"
@@ -211,6 +212,32 @@ export default function LandingPage() {
 
       {/* Scene 3: Threat Categories */}
       <VillainTracker />
+
+      {/* Hero Shot: Spider-Man catching Gwen */}
+      <section className="relative w-full overflow-hidden">
+        <div className="relative h-[500px] w-full sm:h-[600px] lg:h-[700px]">
+          <Image
+            src="/spider-1.jpeg"
+            alt="Spider-Man saves the day"
+            fill
+            className="object-cover object-top"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/20" />
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
+        </div>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-center px-4">
+            <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/20 bg-black/40 backdrop-blur-sm px-4 py-1.5 text-xs font-medium text-cyan-400">
+              <div className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse" />
+              Every hero makes a difference
+            </div>
+            <h3 className="mt-4 text-3xl font-bold tracking-tight text-white drop-shadow-lg sm:text-4xl lg:text-5xl">
+              Even heroes need a plan
+            </h3>
+          </div>
+        </div>
+      </section>
 
       {/* Scene 4: CTA */}
       <JoinSpiderNetwork />

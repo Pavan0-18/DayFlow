@@ -199,8 +199,8 @@ export default function LoginPage() {
       </div>
 
       {/* Spider-Man silhouette */}
-      <div className="pointer-events-none absolute right-[15%] top-[15%] z-20 opacity-30 select-none animate-float">
-        <Image src="/spider-1.jpeg" alt="" width={80} height={80} className="object-contain" />
+      <div className="pointer-events-none absolute right-[15%] top-[15%] z-20 text-6xl opacity-30 select-none animate-float">
+        🕷️
       </div>
 
       {/* Ambient glow */}
