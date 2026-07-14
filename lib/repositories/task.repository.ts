@@ -66,13 +66,14 @@ export class TaskRepository {
   }
 
   async reorder(taskIds: string[], userId: string): Promise<void> {
-    const updates = taskIds.map((id, index) =>
-      db.task.update({
-        where: { id, userId },
-        data: { sortOrder: index },
-      })
+    await db.$transaction(
+      taskIds.map((id, index) =>
+        db.task.update({
+          where: { id, userId },
+          data: { sortOrder: index },
+        })
+      )
     )
-    await db.$transaction(updates)
   }
 
   async countActive(userId: string): Promise<number> {

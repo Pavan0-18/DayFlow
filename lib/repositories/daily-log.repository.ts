@@ -38,32 +38,21 @@ export class DailyLogRepository {
   }
 
   async findOrCreate(userId: string, date: Date): Promise<LogWithItems> {
-    let log = await this.findByDate(userId, date)
-
-    if (!log) {
-      log = await db.dailyLog.create({
-        data: {
-          userId,
-          date,
-        },
-        include: {
-          items: {
-            include: {
-              task: {
-                select: {
-                  id: true,
-                  title: true,
-                  color: true,
-                  icon: true,
-                  category: true,
-                },
-              },
+    const log = await db.dailyLog.upsert({
+      where: { userId_date: { userId, date } },
+      create: { userId, date },
+      update: {},
+      include: {
+        items: {
+          include: {
+            task: {
+              select: { id: true, title: true, color: true, icon: true, category: true },
             },
           },
+          orderBy: { createdAt: 'asc' },
         },
-      })
-    }
-
+      },
+    })
     return this.syncActiveTasks(userId, date, log)
   }
 
@@ -75,17 +64,17 @@ export class DailyLogRepository {
   ): Promise<LogWithItems> {
     const activeTasks = await taskRepository.findActiveByUser(userId)
     const existingTaskIds = new Set(log.items.map((item) => item.taskId))
-
     const missingTasks = activeTasks.filter((task) => !existingTaskIds.has(task.id))
-    if (missingTasks.length > 0) {
-      await db.dailyLogItem.createMany({
-        data: missingTasks.map((task) => ({
-          dailyLogId: log.id,
-          taskId: task.id,
-          completed: false,
-        })),
-      })
-    }
+
+    if (missingTasks.length === 0) return log
+
+    await db.dailyLogItem.createMany({
+      data: missingTasks.map((task) => ({
+        dailyLogId: log.id,
+        taskId: task.id,
+        completed: false,
+      })),
+    })
 
     const refreshed = await this.findByDate(userId, date)
     return refreshed ?? log

@@ -2,10 +2,10 @@
 
 import { useState, useEffect, useRef } from "react"
 import { motion } from "framer-motion"
-import { useDailyLog } from "@/hooks/use-daily-log"
-import { useStreaks } from "@/hooks/use-streak"
-import { useAchievements } from "@/hooks/use-achievements"
-import { useTasks } from "@/hooks/use-tasks"
+import { useQueryClient, useMutation } from "@tanstack/react-query"
+import { useDashboard } from "@/hooks/use-dashboard"
+import { toDateKey } from "@/lib/date-utils"
+import { showAchievementToasts, showErrorToast } from "@/lib/notifications/show-toasts"
 import { ProgressRing } from "@/components/molecules/progress-ring"
 import { SkeletonTaskCard } from "@/components/molecules/skeleton-task-card"
 import { EmptyState } from "@/components/shared/empty-state"
@@ -35,11 +35,57 @@ import confetti from "canvas-confetti"
 
 export default function SpiderHQPage() {
   const [date, setDate] = useState(new Date())
-  const { log, items, completedCount, totalCount, completionPercentage, isLoading, error, toggleTask } = useDailyLog(date)
-  const { data: streaks } = useStreaks()
-  const { achievements, unlockedCount, totalCount: totalAchievements } = useAchievements()
-  const { activeTasks } = useTasks()
+  const queryClient = useQueryClient()
+  const {
+    items, completedCount, totalCount, completionPercentage,
+    activeTasks, streaks, achievements, settings,
+    isLoading, error, invalidate,
+  } = useDashboard()
+  const unlockedCount = achievements.filter((a: any) => a.unlockedAt !== null).length
+  const totalAchievements = achievements.length
   const { rank } = getRankFromXp((streaks?.currentStreak || 0) * 50)
+
+  const toggleTask = useMutation({
+    mutationFn: async ({ taskId, completed: isCompleted }: { taskId: string; completed: boolean }) => {
+      const res = await fetch('/api/logs/toggle', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ taskId, date: toDateKey(date), completed: isCompleted }),
+      })
+      if (!res.ok) throw new Error('Failed to toggle task')
+      const body = await res.json()
+      return body.achievements ?? []
+    },
+    onMutate: async ({ taskId, completed: isCompleted }) => {
+      await queryClient.cancelQueries({ queryKey: ['dashboard'] })
+      const previous = queryClient.getQueryData<any>(['dashboard'])
+      if (previous) {
+        queryClient.setQueryData(['dashboard'], {
+          ...previous,
+          items: previous.items.map((item: any) =>
+            item.task.id === taskId
+              ? { ...item, completed: isCompleted, completedAt: isCompleted ? new Date() : null }
+              : item
+          ),
+          completedCount: isCompleted ? previous.completedCount + 1 : Math.max(0, previous.completedCount - 1),
+          completionPercentage: previous.totalCount > 0
+            ? Math.round(((isCompleted ? previous.completedCount + 1 : Math.max(0, previous.completedCount - 1)) / previous.totalCount) * 100)
+            : 0,
+        })
+      }
+      return { previous }
+    },
+    onError: (_err, _vars, context) => {
+      if (context?.previous) queryClient.setQueryData(['dashboard'], context.previous)
+      showErrorToast('Could not update task')
+    },
+    onSuccess: (achievements) => {
+      if (settings?.achievementAlerts !== false && achievements.length > 0) {
+        showAchievementToasts(achievements)
+      }
+    },
+    onSettled: () => invalidate(),
+  })
 
   const canGoForward = !isToday(date)
   const confettiFiredRef = useRef(false)
@@ -284,12 +330,12 @@ export default function SpiderHQPage() {
                     onClick={() => {
                       const newCompleted = !item.completed
                       toggleTask.mutate(
-                        { taskId: item.task.id, date, completed: newCompleted },
+                        { taskId: item.task.id, completed: newCompleted },
                         {
                           onSuccess: () => {
                             if (newCompleted) {
                               showTaskCompletedToast(item.task.title, () => {
-                                toggleTask.mutate({ taskId: item.task.id, date, completed: false })
+                                toggleTask.mutate({ taskId: item.task.id, completed: false })
                               })
                             }
                           },

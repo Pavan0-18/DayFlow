@@ -10,6 +10,7 @@ import {
 } from '@/lib/notifications/show-toasts'
 
 const LOG_KEY = 'daily-log'
+const DASHBOARD_KEY = ['dashboard']
 
 async function parseError(response: Response, fallback: string): Promise<string> {
   try {
@@ -95,8 +96,7 @@ export function useDailyLog(date: Date) {
       if (settings?.achievementAlerts !== false && achievements.length > 0) {
         showAchievementToasts(achievements)
       }
-      queryClient.invalidateQueries({ queryKey: ['reports'] })
-      queryClient.invalidateQueries({ queryKey: ['streaks'] })
+      queryClient.invalidateQueries({ queryKey: DASHBOARD_KEY })
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey })

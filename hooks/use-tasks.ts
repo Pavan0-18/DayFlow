@@ -5,6 +5,7 @@ import { Task, CreateTaskInput, UpdateTaskInput } from '@/types'
 import { showErrorToast, showSuccessToast } from '@/lib/notifications/show-toasts'
 
 const TASKS_KEY = 'tasks'
+const DASHBOARD_KEY = ['dashboard']
 
 async function parseError(response: Response, fallback: string): Promise<string> {
   try {
@@ -62,9 +63,7 @@ async function reorderTasksApi(taskIds: string[]): Promise<void> {
 
 function invalidateRelatedQueries(queryClient: ReturnType<typeof useQueryClient>) {
   queryClient.invalidateQueries({ queryKey: [TASKS_KEY] })
-  queryClient.invalidateQueries({ queryKey: ['daily-log'] })
-  queryClient.invalidateQueries({ queryKey: ['reports'] })
-  queryClient.invalidateQueries({ queryKey: ['streaks'] })
+  queryClient.invalidateQueries({ queryKey: DASHBOARD_KEY })
 }
 
 export function useTasks() {
@@ -105,10 +104,25 @@ export function useTasks() {
 
   const reorderTasks = useMutation({
     mutationFn: reorderTasksApi,
-    onSuccess: () => {
+    onMutate: async (taskIds) => {
+      await queryClient.cancelQueries({ queryKey: [TASKS_KEY] })
+      const previous = queryClient.getQueryData<Task[]>([TASKS_KEY])
+      if (previous) {
+        const reordered = taskIds.map((id, index) => {
+          const task = previous.find((t) => t.id === id)
+          return task ? { ...task, sortOrder: index } : task
+        }).filter(Boolean) as Task[]
+        queryClient.setQueryData([TASKS_KEY], reordered)
+      }
+      return { previous }
+    },
+    onError: (err: Error, _vars, context) => {
+      if (context?.previous) queryClient.setQueryData([TASKS_KEY], context.previous)
+      showErrorToast('Failed to reorder tasks', err.message)
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: [TASKS_KEY] })
     },
-    onError: (err: Error) => showErrorToast('Failed to reorder tasks', err.message),
   })
 
   const activeTasks = tasks.filter((t) => t.isActive)
