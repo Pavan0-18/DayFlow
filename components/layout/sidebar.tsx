@@ -103,17 +103,8 @@ export function Sidebar({ className }: SidebarProps) {
         <SpiderNav collapsed={collapsed} />
       </ScrollArea>
 
-      {/* Bottom indicator */}
-      <div className="relative z-10 border-t border-border/50 p-3">
-        {!collapsed && (
-          <div className="flex items-center gap-2 px-2">
-            <div className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
-            <span className="text-[10px] text-muted-foreground">
-              Spider Sense: <span className="text-success">Active</span>
-            </span>
-          </div>
-        )}
-      </div>
+      {/* Bottom spacer (SpiderSense status is inside SpiderNav) */}
+      <div className="relative z-10" />
     </div>
   )
 }
