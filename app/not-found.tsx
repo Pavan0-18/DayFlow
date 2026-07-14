@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Home, Compass } from "lucide-react"
@@ -13,8 +14,8 @@ export default function NotFound() {
 
       {/* Content */}
       <div className="relative z-10 text-center">
-        <div className="mb-6 text-8xl">
-          🕸️
+        <div className="mb-6 flex justify-center">
+          <Image src="/spider-2.jpeg" alt="" width={120} height={120} className="object-contain rounded-2xl opacity-80" />
         </div>
         <h1 className="text-6xl font-bold text-foreground">Dimension Lost</h1>
         <p className="mt-4 text-xl text-muted-foreground">
@@ -41,8 +42,8 @@ export default function NotFound() {
       </div>
 
       {/* Decorative spider */}
-      <div className="pointer-events-none absolute bottom-10 right-10 text-6xl opacity-10">
-        🕷️
+      <div className="pointer-events-none absolute bottom-10 right-10 opacity-10">
+        <Image src="/spider-3.jpeg" alt="" width={80} height={80} className="object-contain rounded-xl" />
       </div>
     </div>
   )

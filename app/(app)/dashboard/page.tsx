@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import Image from "next/image"
 import { motion } from "framer-motion"
 import { useQueryClient, useMutation } from "@tanstack/react-query"
 import { useDashboard } from "@/hooks/use-dashboard"
@@ -230,9 +231,13 @@ export default function SpiderHQPage() {
                   ? "border-primary/50 shadow-[0_0_30px_hsl(var(--primary)/0.3)]"
                   : "border-border/30",
               )}>
-                <span className={cn("text-2xl transition-all", isHighAlert && "animate-spider-sense")}>
-                  {isHighAlert ? "🕷️" : "🕸️"}
-                </span>
+                <Image
+                  src="/spider-3.jpeg"
+                  alt=""
+                  width={40}
+                  height={40}
+                  className={cn("object-contain transition-all", isHighAlert && "animate-spider-sense")}
+                />
               </div>
               <div className="text-center">
                 <p className="text-xs font-medium text-muted-foreground">Spider Sense Status</p>

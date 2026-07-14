@@ -3,6 +3,7 @@
 import { Suspense, useEffect, useState } from "react"
 import { signIn, useSession } from "next-auth/react"
 import { useRouter, useSearchParams } from "next/navigation"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Chrome, Loader2, Shield } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
@@ -198,8 +199,8 @@ export default function LoginPage() {
       </div>
 
       {/* Spider-Man silhouette */}
-      <div className="pointer-events-none absolute right-[15%] top-[15%] z-20 text-6xl opacity-30 select-none animate-float">
-        🕷️
+      <div className="pointer-events-none absolute right-[15%] top-[15%] z-20 opacity-30 select-none animate-float">
+        <Image src="/spider-1.jpeg" alt="" width={80} height={80} className="object-contain" />
       </div>
 
       {/* Ambient glow */}
