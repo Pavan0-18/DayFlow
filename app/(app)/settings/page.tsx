@@ -15,6 +15,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
+import { SettingsSkeleton } from "@/components/shared/page-skeletons"
 import { GlassPanel } from "@/components/spider/glass-panel"
 import {
   Bell,
@@ -88,7 +89,7 @@ function NotificationToggleRow({
 export default function SuitLabPage() {
   const { data: session } = useSession()
   const { theme: nextTheme, setTheme } = useTheme()
-  const { settings, updateSettings } = useSettings()
+  const { settings, isLoading, updateSettings } = useSettings()
   const searchParams = useSearchParams()
   const [activeTab, setActiveTab] = useState(searchParams.get("tab") || "profile")
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
@@ -165,6 +166,8 @@ export default function SuitLabPage() {
       }
     })
   }
+
+  if (isLoading) return <div className="p-1"><SettingsSkeleton /></div>
 
   return (
     <div className="space-y-6">

@@ -4,6 +4,7 @@ import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Task } from "@prisma/client"
 import { useTasks } from "@/hooks/use-tasks"
+import { TasksSkeleton } from "@/components/shared/page-skeletons"
 import { TaskRow } from "@/components/molecules/task-row"
 import { TaskFormSheet } from "@/components/molecules/task-form-sheet"
 import { EmptyState } from "@/components/shared/empty-state"
@@ -161,6 +162,8 @@ export default function MissionsPage() {
 
   const isNearLimit = activeTaskCount >= 19
   const isAtLimit = activeTaskCount >= 20
+
+  if (isLoading) return <div className="p-1"><TasksSkeleton /></div>
 
   return (
     <div className="space-y-6">

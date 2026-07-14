@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { useSchedule } from "@/hooks/use-schedule"
+import { ScheduleSkeleton } from "@/components/shared/page-skeletons"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ChevronLeft, ChevronRight, Clock, Sparkles, Plus, Map, Radar, Shield } from "lucide-react"
@@ -41,6 +42,8 @@ export default function PatrolRoutePage() {
   })
 
   const totalScheduled = scheduledTasks.length
+
+  if (isLoading) return <div className="p-1"><ScheduleSkeleton /></div>
 
   return (
     <div className="space-y-6">

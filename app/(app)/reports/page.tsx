@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { EmptyState } from "@/components/shared/empty-state"
+import { ReportsHubSkeleton } from "@/components/shared/page-skeletons"
 import { GlassPanel } from "@/components/spider/glass-panel"
 import { HeroStat } from "@/components/spider/hero-stat"
 import { ThreatLevel } from "@/components/spider/threat-level"
@@ -35,6 +36,9 @@ export default function CaseFilesPage() {
   const recentAchievements = achievements
     .filter((a) => a.unlockedAt)
     .slice(0, 4)
+
+  const anyLoading = insightsLoading || streaksLoading || achievementsLoading
+  if (anyLoading) return <ReportsHubSkeleton />
 
   return (
     <div className="space-y-6">

@@ -5,6 +5,7 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 import { useQueryClient, useMutation } from "@tanstack/react-query"
 import { useDashboard } from "@/hooks/use-dashboard"
+import { DashboardSkeleton } from "@/components/shared/page-skeletons"
 import { toDateKey } from "@/lib/date-utils"
 import { showAchievementToasts, showErrorToast } from "@/lib/notifications/show-toasts"
 import { ProgressRing } from "@/components/molecules/progress-ring"
@@ -134,6 +135,8 @@ export default function SpiderHQPage() {
       />
     )
   }
+
+  if (isLoading) return <DashboardSkeleton />
 
   const message = getMotivationalMessage(completionPercentage)
   const isHighAlert = completionPercentage < 30 && totalCount > 0
