@@ -1,11 +1,20 @@
 "use client"
 
+import dynamic from "next/dynamic"
 import { cn } from "@/lib/utils"
 import { Sidebar } from "./sidebar"
 import { Header } from "./header"
 import { MobileBottomNav } from "./mobile-bottom-nav"
-import { ParticleField } from "@/components/spider/particle-field"
-import { KeyboardShortcutModal } from "@/components/shared/keyboard-shortcut-modal"
+
+const ParticleField = dynamic(
+  () => import("@/components/spider/particle-field").then((m) => m.ParticleField),
+  { ssr: false }
+)
+
+const KeyboardShortcutModal = dynamic(
+  () => import("@/components/shared/keyboard-shortcut-modal").then((m) => m.KeyboardShortcutModal),
+  { ssr: false }
+)
 
 interface AppShellProps {
   children: React.ReactNode
