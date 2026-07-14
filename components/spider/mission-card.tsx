@@ -22,14 +22,14 @@ const statusConfig = {
   "swinging-into-action": { label: "Swinging Into Action", color: "text-blue-400", bgColor: "bg-blue-500/10" },
   "city-saved": { label: "City Saved", color: "text-green-400", bgColor: "bg-green-500/10" },
   "villain-interference": { label: "Villain Interference", color: "text-red-400", bgColor: "bg-red-500/10" },
-  "mission-aborted": { label: "Mission Aborted", color: "text-muted-foreground", bgColor: "bg-white/5" },
+  "mission-aborted": { label: "Mission Aborted", color: "text-muted-foreground", bgColor: "bg-muted/30" },
 }
 
 const priorityConfig = {
   low: "border-l-green-500",
   medium: "border-l-yellow-500",
   high: "border-l-red-500",
-  critical: "border-l-[#E11D48]",
+  critical: "border-l-primary",
 }
 
 export function MissionCard({
@@ -79,7 +79,7 @@ export function MissionCard({
             <span className="text-muted-foreground">Progress</span>
             <span className="font-medium">{progress}%</span>
           </div>
-          <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
+          <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted/30">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}

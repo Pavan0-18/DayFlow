@@ -10,7 +10,6 @@ import {
   Calendar,
   FileBarChart,
   Settings,
-  Bell,
 } from "lucide-react"
 interface NavItem {
   icon: React.ElementType
@@ -25,7 +24,6 @@ const navItems: NavItem[] = [
   { icon: Target, label: "Tasks", spiderLabel: "Missions", href: "/tasks" },
   { icon: Calendar, label: "Schedule", spiderLabel: "City Intel", href: "/schedule" },
   { icon: FileBarChart, label: "Reports", spiderLabel: "Case Files", href: "/reports" },
-  { icon: Bell, label: "Notifications", spiderLabel: "Spider Sense", href: "/settings?tab=notifications" },
   { icon: Settings, label: "Settings", spiderLabel: "Suit Config", href: "/settings" },
 ]
 
@@ -50,7 +48,7 @@ export function SpiderNav({ collapsed }: SpiderNavProps) {
             className={cn(
               "group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
               isActive
-                ? "bg-gradient-to-r from-[#E11D48]/20 to-transparent text-[#E11D48]"
+                ? "bg-gradient-to-r from-primary/20 to-transparent text-primary"
                 : "text-muted-foreground hover:bg-muted/50 hover:text-foreground",
             )}
           >
@@ -58,7 +56,7 @@ export function SpiderNav({ collapsed }: SpiderNavProps) {
             {isActive && (
               <motion.div
                 layoutId="nav-active"
-                className="absolute left-0 top-1/2 h-6 w-0.5 -translate-y-1/2 rounded-r-full bg-[#E11D48]"
+                className="absolute left-0 top-1/2 h-6 w-0.5 -translate-y-1/2 rounded-r-full bg-primary"
               />
             )}
 
@@ -73,7 +71,7 @@ export function SpiderNav({ collapsed }: SpiderNavProps) {
 
             {/* Badge */}
             {!collapsed && item.badge && (
-              <span className="ml-auto flex h-5 min-w-[20px] items-center justify-center rounded-full bg-[#E11D48] px-1.5 text-[10px] font-bold text-white animate-pulse">
+              <span className="ml-auto flex h-5 min-w-[20px] items-center justify-center rounded-full bg-primary px-1.5 text-[10px] font-bold text-primary-foreground animate-pulse">
                 {item.badge}
               </span>
             )}
@@ -83,11 +81,11 @@ export function SpiderNav({ collapsed }: SpiderNavProps) {
 
       {/* Spider Sense Status */}
       <div className="mt-4 border-t border-border/50 pt-4">
-        <div className="flex items-center gap-2 px-3 py-2">
-          <div className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
+          <div className="flex items-center gap-2 px-3 py-2">
+          <div className="h-1.5 w-1.5 rounded-full bg-success animate-pulse" />
           {!collapsed && (
             <span className="text-[10px] text-muted-foreground">
-              Spider Sense: <span className="text-green-400">Calm</span>
+              Spider Sense: <span className="text-success">Calm</span>
             </span>
           )}
         </div>

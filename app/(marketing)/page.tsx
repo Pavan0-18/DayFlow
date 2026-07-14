@@ -82,7 +82,7 @@ function JoinSpiderNetwork() {
             <Link href={isAuthenticated ? "/dashboard" : "/login"}>
               <Button
                 size="lg"
-                className="group relative overflow-hidden gap-3 bg-gradient-to-r from-[#E11D48] to-[#1D4ED8] px-10 py-6 text-lg font-bold text-white shadow-[0_0_30px_rgba(225,29,72,0.3)] hover:shadow-[0_0_60px_rgba(225,29,72,0.5)] transition-all duration-300 hover:scale-105"
+                className="group relative overflow-hidden gap-3 bg-gradient-to-r from-primary to-accent px-10 py-6 text-lg font-bold text-primary-foreground shadow-[0_0_30px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_60px_hsl(var(--primary)/0.5)] transition-all duration-300 hover:scale-105"
               >
                 <span className="relative z-10 flex items-center gap-3">
                   {isAuthenticated ? <LayoutDashboard className="h-5 w-5" /> : <Zap className="h-5 w-5" />}

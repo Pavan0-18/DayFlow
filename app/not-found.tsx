@@ -26,7 +26,7 @@ export default function NotFound() {
         </p>
         <div className="mt-8 flex items-center justify-center gap-4">
           <Link href="/dashboard">
-            <Button className="gap-2 bg-gradient-to-r from-[#E11D48] to-[#1D4ED8] text-white">
+            <Button className="gap-2 bg-gradient-to-r from-primary to-accent text-primary-foreground">
               <Home className="h-4 w-4" />
               Return to Spider HQ
             </Button>

@@ -10,12 +10,12 @@ import { ProgressRing } from "@/components/molecules/progress-ring"
 import { SkeletonTaskCard } from "@/components/molecules/skeleton-task-card"
 import { EmptyState } from "@/components/shared/empty-state"
 import { ErrorState } from "@/components/shared/error-state"
+import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { HeroStat } from "@/components/spider/hero-stat"
 import { GlassPanel } from "@/components/spider/glass-panel"
 import { CityIntelMap } from "@/components/spider/city-intel-map"
 import { RadarScan } from "@/components/spider/radar-scan"
-import { SpiderSense } from "@/components/spider/spider-sense"
 import { ThreatLevel } from "@/components/spider/threat-level"
 import { MissionCard } from "@/components/spider/mission-card"
 import { RankBadge, getRankFromXp } from "@/components/spider/rank-badge"
@@ -97,7 +97,7 @@ export default function SpiderHQPage() {
         particleCount: 100,
         spread: 70,
         origin: { y: 0.6 },
-        colors: ["#E11D48", "#1D4ED8", "#A855F7", "#22D3EE", "#F59E0B"],
+        colors: ["hsl(var(--primary))", "hsl(var(--accent))", "#A855F7", "#22D3EE", "#F59E0B"],
       })
     }
     if (completionPercentage < 100) {
@@ -145,8 +145,8 @@ export default function SpiderHQPage() {
         className="flex items-center justify-between"
       >
         <div className="flex items-center gap-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#E11D48]/20 to-[#1D4ED8]/20 border border-border/30">
-            <Shield className="h-6 w-6 text-[#E11D48]" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 border border-border/30">
+            <Shield className="h-6 w-6 text-primary" />
           </div>
           <div>
             <h1 className="text-2xl font-bold text-foreground">Spider HQ</h1>
@@ -220,22 +220,22 @@ export default function SpiderHQPage() {
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Left: City Intel + Radar */}
         <div className="space-y-6 lg:col-span-1">
-          {/* Spider Sense */}
+          {/* Spider Sense Status */}
           <GlassPanel variant="holographic" className="p-4">
-            <div className="flex flex-col items-center">
-              <SpiderSense
-                active={isHighAlert}
-                notifications={
-                  isHighAlert
-                    ? [{ id: "1", message: "⚡ Multiple threats detected across the city!", type: "danger" }]
-                    : completionPercentage >= 100
-                    ? [{ id: "1", message: "✅ City secured! All missions completed.", type: "info" }]
-                    : [{ id: "1", message: "🕷️ All quiet. Patrol ongoing.", type: "info" }]
-                }
-              />
-              <div className="mt-3 text-center">
+            <div className="flex flex-col items-center gap-3">
+              <div className={cn(
+                "flex h-16 w-16 items-center justify-center rounded-full border-2 transition-all duration-500",
+                isHighAlert
+                  ? "border-primary/50 shadow-[0_0_30px_hsl(var(--primary)/0.3)]"
+                  : "border-border/30",
+              )}>
+                <span className={cn("text-2xl transition-all", isHighAlert && "animate-spider-sense")}>
+                  {isHighAlert ? "🕷️" : "🕸️"}
+                </span>
+              </div>
+              <div className="text-center">
                 <p className="text-xs font-medium text-muted-foreground">Spider Sense Status</p>
-                <p className={`text-sm font-semibold ${isHighAlert ? "text-red-400" : "text-green-400"}`}>
+                <p className={cn("text-sm font-semibold", isHighAlert ? "text-destructive" : "text-success")}>
                   {isHighAlert ? "⚠️ Alert — Threats detected" : completionPercentage >= 100 ? "✅ Secure" : "🟢 Calm"}
                 </p>
               </div>
@@ -260,9 +260,9 @@ export default function SpiderHQPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="relative flex flex-col items-center justify-center overflow-hidden rounded-2xl border border-border/50 bg-gradient-to-br from-card/90 via-card/70 to-[#1D4ED8]/10 p-6 shadow-xl"
+            className="relative flex flex-col items-center justify-center overflow-hidden rounded-2xl border border-border/50 bg-gradient-to-br from-card/90 via-card/70 to-accent/10 p-6 shadow-xl"
           >
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#E11D48]/5 via-transparent to-[#A855F7]/5" />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-[#A855F7]/5" />
             <div className="relative flex flex-col items-center">
               <ProgressRing percentage={completionPercentage} size={180}>
                 <div className="text-center">
@@ -289,7 +289,7 @@ export default function SpiderHQPage() {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-            <span className="inline-block h-2 w-2 rounded-full bg-[#E11D48] animate-pulse" />
+            <span className="inline-block h-2 w-2 rounded-full bg-primary animate-pulse" />
             Active Missions
           </h3>
           <span className="text-xs text-muted-foreground">
@@ -371,7 +371,7 @@ export default function SpiderHQPage() {
       >
         <Button
           size="lg"
-          className="h-14 w-14 rounded-full bg-gradient-to-r from-[#E11D48] to-[#1D4ED8] shadow-[0_0_30px_rgba(225,29,72,0.3)] hover:shadow-[0_0_50px_rgba(225,29,72,0.5)] transition-all duration-300"
+          className="h-14 w-14 rounded-full bg-gradient-to-r from-primary to-accent shadow-[0_0_30px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_50px_hsl(var(--primary)/0.5)] transition-all duration-300"
           onClick={() => window.location.href = "/tasks"}
         >
           <Plus className="h-6 w-6" />

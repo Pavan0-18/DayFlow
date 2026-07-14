@@ -33,7 +33,7 @@ export function CityIntelMap({ className, districts = [] }: CityIntelMapProps) {
             <span className="h-1.5 w-1.5 rounded-full bg-red-500" /> High
           </span>
           <span className="flex items-center gap-1">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#E11D48]" /> Crit
+            <span className="h-1.5 w-1.5 rounded-full bg-primary" /> Crit
           </span>
         </div>
       </div>
@@ -41,24 +41,32 @@ export function CityIntelMap({ className, districts = [] }: CityIntelMapProps) {
       {/* Map Grid */}
       <div className="radar-grid relative aspect-[4/3] rounded-lg overflow-hidden border border-border/50">
         {/* Simplified NYC boroughs layout */}
-        <div className="absolute inset-0 p-2 grid grid-cols-3 grid-rows-2 gap-2">
-          {districts.slice(0, 6).map((district, i) => (
-            <div
-              key={i}
-              className={cn(
-                "rounded-lg border p-2 flex flex-col items-center justify-center text-center transition-all duration-300",
-                threatColors[district.threat],
-                district.threat === "critical" && "animate-threat-pulse",
-              )}
-            >
-              <span className="text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">
-                {district.name}
-              </span>
-              <span className="text-lg font-bold">{district.incidents}</span>
-              <span className="text-[8px] text-muted-foreground uppercase">incidents</span>
-            </div>
-          ))}
-        </div>
+        {districts.length > 0 ? (
+          <div className="absolute inset-0 p-2 grid grid-cols-3 grid-rows-2 gap-2">
+            {districts.slice(0, 6).map((district, i) => (
+              <div
+                key={i}
+                className={cn(
+                  "rounded-lg border p-2 flex flex-col items-center justify-center text-center transition-all duration-300",
+                  threatColors[district.threat],
+                  district.threat === "critical" && "animate-threat-pulse",
+                )}
+              >
+                <span className="text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  {district.name}
+                </span>
+                <span className="text-lg font-bold">{district.incidents}</span>
+                <span className="text-[8px] text-muted-foreground uppercase">incidents</span>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center">
+            <span className="text-3xl mb-2">🗺️</span>
+            <p className="text-xs font-medium text-muted-foreground">No active patrol zones</p>
+            <p className="text-[10px] text-muted-foreground/60 mt-1">Create tasks to populate the intelligence map</p>
+          </div>
+        )}
 
         {/* Decorative scan line */}
         <div className="absolute inset-0 scan-line" />

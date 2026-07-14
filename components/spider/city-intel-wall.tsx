@@ -4,7 +4,6 @@ import { useSession } from "next-auth/react"
 import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { GlassPanel } from "./glass-panel"
-import { SpiderSense } from "./spider-sense"
 
 const FEATURES = [
   {
@@ -72,18 +71,13 @@ export function CityIntelWall({ className }: { className?: string }) {
 
         {/* Main Grid */}
         <div className="mt-12 grid gap-6 lg:grid-cols-3">
-          {/* Left: Spider Sense + Key Features */}
+          {/* Left: Data Integrity + Key Features */}
           <div className="space-y-6 lg:col-span-1">
             <GlassPanel variant="holographic" className="flex flex-col items-center p-6">
-              <SpiderSense
-                active={false}
-                notifications={[
-                  { id: "1", message: "🕷️ Your patrol data feeds every dashboard in real time.", type: "info" },
-                  { id: "2", message: "⚠️ Your completion rate updates as you check off tasks.", type: "alert" },
-                  { id: "3", message: "🚨 Achievements unlock automatically when you hit milestones.", type: "info" },
-                ]}
-              />
-              <div className="mt-3 text-center">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-cyan-500/30 bg-cyan-500/10">
+                <span className="text-2xl">🕸️</span>
+              </div>
+              <div className="mt-4 text-center">
                 <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
                   Data Integrity Status
                 </p>
@@ -101,22 +95,22 @@ export function CityIntelWall({ className }: { className?: string }) {
               <div className="space-y-3">
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-muted-foreground">Data Source</span>
-                  <span className="font-bold text-white">Your Tasks</span>
+                  <span className="font-bold text-foreground">Your Tasks</span>
                 </div>
-                <div className="h-px bg-white/5" />
+                <div className="h-px bg-border/50" />
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-muted-foreground">Reports</span>
-                  <span className="font-bold text-green-400">Real-time</span>
+                  <span className="font-bold text-success">Real-time</span>
                 </div>
-                <div className="h-px bg-white/5" />
+                <div className="h-px bg-border/50" />
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-muted-foreground">AI Insights</span>
-                  <span className="font-bold text-yellow-400">Personalized</span>
+                  <span className="font-bold text-warning">Personalized</span>
                 </div>
-                <div className="h-px bg-white/5" />
+                <div className="h-px bg-border/50" />
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-muted-foreground">Achievements</span>
-                  <span className="font-bold text-white">Auto-tracked</span>
+                  <span className="font-bold text-foreground">Auto-tracked</span>
                 </div>
               </div>
             </GlassPanel>
@@ -150,8 +144,8 @@ export function CityIntelWall({ className }: { className?: string }) {
                     <div className="flex items-start gap-3">
                       <span className="mt-0.5 text-lg">{feature.icon}</span>
                       <div className="flex-1 min-w-0">
-                        <h4 className="text-sm font-semibold text-white">{feature.title}</h4>
-                        <p className="mt-0.5 text-sm text-slate-400 leading-relaxed">
+                        <h4 className="text-sm font-semibold text-foreground">{feature.title}</h4>
+                        <p className="mt-0.5 text-sm text-muted-foreground leading-relaxed">
                           {feature.description}
                         </p>
                       </div>

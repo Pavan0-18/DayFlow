@@ -41,15 +41,15 @@ export function UserMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-9 w-9 rounded-full ring-2 ring-[#E11D48]/30 hover:ring-[#E11D48]/50 transition-all">
+        <Button variant="ghost" className="relative h-9 w-9 rounded-full ring-2 ring-primary/30 hover:ring-primary/50 transition-all">
           <Avatar className="h-9 w-9">
             <AvatarImage src={user.image || undefined} alt={user.name || ""} />
-            <AvatarFallback className="bg-gradient-to-br from-[#1D4ED8] to-[#E11D48] text-white text-xs">
+            <AvatarFallback className="bg-gradient-to-br from-accent to-primary text-primary-foreground text-xs">
               {initials}
             </AvatarFallback>
           </Avatar>
           {/* Active indicator */}
-          <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-background bg-green-400" />
+          <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-background bg-success" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-64 border-border/30 bg-card/95 backdrop-blur-xl" align="end" forceMount>
@@ -58,8 +58,8 @@ export function UserMenu() {
             <p className="text-sm font-medium leading-none text-foreground">{user.name}</p>
             <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
             <div className="mt-1.5 flex items-center gap-1.5">
-              <Shield className="h-3 w-3 text-[#E11D48]" />
-              <span className="text-[10px] font-medium text-[#E11D48] uppercase tracking-wider">
+              <Shield className="h-3 w-3 text-primary" />
+              <span className="text-[10px] font-medium text-primary uppercase tracking-wider">
                 {rankConfigMap[rank]?.label || "Spider Operative"}
               </span>
             </div>

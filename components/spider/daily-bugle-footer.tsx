@@ -30,7 +30,7 @@ export function DailyBugleFooter({ className }: DailyBugleFooterProps) {
                   cy={row * 100 + 50}
                   r={60}
                   fill="none"
-                  stroke="white"
+                  stroke="hsl(var(--foreground))"
                   strokeWidth="0.3"
                 />
               ))}
@@ -42,7 +42,7 @@ export function DailyBugleFooter({ className }: DailyBugleFooterProps) {
       <div className="relative mx-auto max-w-6xl px-4 py-16">
         {/* Top: Daily Bugle Header */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-3 rounded-full border border-border/50 bg-white/[0.02] px-5 py-2">
+          <div className="inline-flex items-center gap-3 rounded-full border border-border/50 bg-muted/5 px-5 py-2">
             <Radio className="h-3 w-3 text-red-400" />
             <span className="text-xs font-semibold tracking-[0.15em] text-slate-500 uppercase">
               DayFlow Network

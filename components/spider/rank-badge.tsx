@@ -43,7 +43,7 @@ export function RankBadge({
         className={cn(
           "flex h-10 w-10 items-center justify-center rounded-full border-2 text-lg",
           `rank-${rank}`,
-          "border-current bg-black/40",
+          "border-current bg-card",
         )}
       >
         {config.icon}
@@ -54,7 +54,7 @@ export function RankBadge({
         </p>
         {showProgress && xp !== undefined && nextRankXp && (
           <div className="mt-1 space-y-0.5">
-            <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
+            <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted/30">
               <div
                 className="xp-bar-fill h-full rounded-full transition-all duration-500"
                 style={{ width: `${Math.min(progress, 100)}%` }}

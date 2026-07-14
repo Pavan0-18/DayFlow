@@ -69,7 +69,7 @@ export function NySkyline({ className, variant = "night" }: NySkylineProps) {
 
       {/* Moon */}
       {variant === "night" && (
-        <div className="absolute right-[20%] top-[20%] h-6 w-6 rounded-full bg-white/20 shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+          <div className="absolute right-[20%] top-[20%] h-6 w-6 rounded-full bg-foreground/20 dark:bg-white/20 shadow-[0_0_20px_hsl(var(--foreground)/0.2)] dark:shadow-[0_0_20px_rgba(255,255,255,0.2)]">
           <div className="absolute right-1 top-0.5 h-5 w-5 rounded-full bg-background" />
         </div>
       )}

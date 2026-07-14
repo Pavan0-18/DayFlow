@@ -32,8 +32,8 @@ export function Header({ className }: HeaderProps) {
             {format(today, "EEEE, MMMM d")}
           </h1>
           <p className="text-xs text-muted-foreground flex items-center gap-1.5">
-            <span className="inline-block h-1 w-1 rounded-full bg-green-400 animate-pulse" />
-            City Status: <span className="text-green-400 font-medium">Secure</span>
+            <span className="inline-block h-1 w-1 rounded-full bg-success animate-pulse" />
+            City Status: <span className="text-success font-medium">Secure</span>
             <span className="mx-1">·</span>
             {format(today, "yyyy")}
           </p>

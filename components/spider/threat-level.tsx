@@ -14,7 +14,7 @@ const threatConfig: Record<ThreatLevel, { label: string; color: string; bars: nu
   low: { label: "Low", color: "bg-green-500", bars: 1 },
   medium: { label: "Medium", color: "bg-yellow-500", bars: 2 },
   high: { label: "High", color: "bg-red-500", bars: 3 },
-  critical: { label: "Critical", color: "bg-[#E11D48]", bars: 4 },
+  critical: { label: "Critical", color: "bg-primary", bars: 4 },
 }
 
 export function ThreatLevel({ level, showLabel = true, className }: ThreatLevelProps) {
@@ -30,7 +30,7 @@ export function ThreatLevel({ level, showLabel = true, className }: ThreatLevelP
               "h-4 w-1 rounded-sm transition-all duration-500",
               bar <= config.bars
                 ? config.color
-                : "bg-white/10",
+                : "bg-muted/30",
               level === "critical" && bar <= config.bars && "animate-threat-pulse",
             )}
           />

@@ -157,7 +157,7 @@ export function CinematicHero({ onComplete }: CinematicHeroProps) {
   return (
     <section className="relative min-h-screen overflow-hidden bg-background">
       {/* Full-screen cinematic background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#020617] via-[#0a0f1e] to-[#020617]" />
+      <div className="absolute inset-0 dark:bg-gradient-to-b dark:from-[#020617] dark:via-[#0a0f1e] dark:to-[#020617] bg-gradient-to-b from-card via-card/90 to-card" />
 
       {/* Static noise overlay */}
       <div
@@ -201,7 +201,8 @@ export function CinematicHero({ onComplete }: CinematicHeroProps) {
         <svg viewBox="0 0 1440 160" fill="none" className="h-full w-full opacity-20">
           <path
             d="M0 160V120H40V80H60V100H80V60H100V90H120V70H140V100H160V50H180V80H200V60H220V90H240V40H260V70H280V55H300V85H320V45H340V75H360V65H380V95H400V55H420V85H440V60H460V90H480V70H500V100H520V80H540V110H560V90H580V120H600V90H620V110H640V80H660V100H680V70H700V95H720V65H740V90H760V60H780V85H800V55H820V80H840V50H860V75H880V45H900V70H920V55H940V80H960V60H980V90H1000V70H1020V100H1040V80H1060V110H1080V90H1100V120H1120V100H1140V130H1160V110H1180V140H1200V120H1220V150H1240V130H1260V160H1280V140H1300V160H1320V150H1340V160H1360V145H1380V160H1400V155H1440V160H0Z"
-            fill="#0F172A"
+            fill="hsl(var(--card))"
+            className="dark:fill-[#0F172A]"
           />
           {[60, 100, 140, 180, 220, 260, 300, 340, 380, 420, 460, 500, 540, 580, 620, 660, 700, 740, 780, 820, 860, 900, 940, 980, 1020, 1060, 1100, 1140, 1180, 1220, 1260, 1300, 1340, 1380, 1420].map((x, i) => (
             <rect
@@ -219,7 +220,7 @@ export function CinematicHero({ onComplete }: CinematicHeroProps) {
 
       {/* Fog layer */}
       <div className="absolute bottom-28 left-0 right-0 h-20 z-20 pointer-events-none">
-        <div className="h-full bg-gradient-to-t from-[#020617] via-[#020617]/80 to-transparent" />
+        <div className="h-full dark:bg-gradient-to-t dark:from-[#020617] dark:via-[#020617]/80 bg-gradient-to-t from-card via-card/80 to-transparent" />
       </div>
 
       {/* ─── Cinematic Content ──────────────────────────────────── */}
@@ -248,7 +249,7 @@ export function CinematicHero({ onComplete }: CinematicHeroProps) {
 
                 <h2 className="text-3xl font-bold tracking-[0.15em] sm:text-4xl lg:text-5xl">
                   <span className="text-slate-500">DAILY</span>{" "}
-                  <span className="text-white">BUGLE</span>
+                  <span className="text-foreground dark:text-white">BUGLE</span>
                 </h2>
                 <div className="mx-auto mt-2 h-px w-48 bg-gradient-to-r from-transparent via-red-500/50 to-transparent" />
                 <p className="mt-4 text-sm tracking-[0.3em] text-slate-600 uppercase">
@@ -433,7 +434,7 @@ export function CinematicHero({ onComplete }: CinematicHeroProps) {
                 <Link href="#city-intel">
                   <button
                     onClick={handleScrollDown}
-                    className="group relative inline-flex items-center gap-3 rounded-xl border border-[#E11D48]/40 bg-gradient-to-r from-[#E11D48] to-[#1D4ED8] px-8 py-4 text-lg font-bold text-white shadow-[0_0_30px_rgba(225,29,72,0.3)] transition-all duration-300 hover:shadow-[0_0_60px_rgba(225,29,72,0.5)] hover:scale-105"
+                    className="group relative inline-flex items-center gap-3 rounded-xl border border-primary/40 bg-gradient-to-r from-primary to-accent px-8 py-4 text-lg font-bold text-primary-foreground shadow-[0_0_30px_hsl(var(--primary)/0.3)] transition-all duration-300 hover:shadow-[0_0_60px_hsl(var(--primary)/0.5)] hover:scale-105"
                   >
                     <span className="relative z-10 flex items-center gap-3">
                       <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -506,7 +507,7 @@ export function CinematicHero({ onComplete }: CinematicHeroProps) {
                   className="mt-8"
                 >
                   <Link href="/login">
-                    <button className="group relative inline-flex items-center gap-3 rounded-xl border border-cyan-500/40 bg-gradient-to-r from-cyan-500 to-blue-600 px-8 py-4 text-lg font-bold text-white shadow-[0_0_30px_rgba(34,211,238,0.3)] transition-all duration-300 hover:shadow-[0_0_60px_rgba(34,211,238,0.5)] hover:scale-105">
+                    <button className="group relative inline-flex items-center gap-3 rounded-xl border border-cyan-500/40 bg-gradient-to-r from-cyan-500 to-blue-600 px-8 py-4 text-lg font-bold text-primary-foreground shadow-[0_0_30px_rgba(34,211,238,0.3)] transition-all duration-300 hover:shadow-[0_0_60px_rgba(34,211,238,0.5)] hover:scale-105">
                       <span className="relative z-10 flex items-center gap-3">
                         <span className="text-xl">🕷️</span>
                         Become a Hero — Sign In
@@ -562,7 +563,7 @@ export function CinematicHero({ onComplete }: CinematicHeroProps) {
           >
             <p className="text-2xl font-bold tracking-[0.15em] sm:text-3xl lg:text-4xl">
               <span className="text-slate-500">DAILY</span>{" "}
-              <span className="text-white">BUGLE</span>
+              <span className="text-foreground dark:text-white">BUGLE</span>
             </p>
           </motion.div>
         )}

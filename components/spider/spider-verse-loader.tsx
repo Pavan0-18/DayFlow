@@ -80,7 +80,7 @@ export function SpiderVerseLoader({
           className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-background"
         >
           {/* Background gradient */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#020617] via-[#0a0f1e] to-[#020617]" />
+          <div className="pointer-events-none absolute inset-0 dark:bg-gradient-to-b dark:from-[#020617] dark:via-[#0a0f1e] bg-gradient-to-b from-card via-card/90 to-card" />
 
           {/* Subtle grid overlay */}
           <div
@@ -122,7 +122,7 @@ export function SpiderVerseLoader({
 
               {/* Progress bar */}
               <div className="mt-6 w-64">
-                <div className="h-1 overflow-hidden rounded-full bg-white/10">
+                <div className="h-1 overflow-hidden rounded-full bg-muted/50">
                   <motion.div
                     className={cn(
                       "h-full rounded-full transition-all duration-100",

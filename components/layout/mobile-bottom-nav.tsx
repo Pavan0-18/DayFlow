@@ -46,14 +46,14 @@ export function MobileBottomNav({ className }: MobileBottomNavProps) {
               className={cn(
                 "relative flex flex-col items-center gap-0.5 px-3 py-1.5 transition-all duration-200",
                 isActive
-                  ? "text-[#E11D48]"
+                  ? "text-primary"
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
               {isActive && (
                 <motion.div
                   layoutId="mobile-nav-active"
-                  className="absolute -top-[1px] left-1/2 h-0.5 w-8 -translate-x-1/2 rounded-full bg-[#E11D48]"
+                  className="absolute -top-[1px] left-1/2 h-0.5 w-8 -translate-x-1/2 rounded-full bg-primary"
                 />
               )}
               <Icon className={cn(

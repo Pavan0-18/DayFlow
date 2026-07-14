@@ -97,9 +97,9 @@ function LoginContent() {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#E11D48] to-[#1D4ED8] shadow-lg"
+            className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent shadow-lg"
           >
-            <Shield className="h-8 w-8 text-white" />
+            <Shield className="h-8 w-8 text-primary-foreground" />
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 10 }}
@@ -140,7 +140,7 @@ function LoginContent() {
           transition={{ delay: 0.4 }}
         >
           <Button
-            className="w-full gap-3 bg-gradient-to-r from-[#E11D48] to-[#1D4ED8] text-white hover:from-[#E11D48] hover:to-[#2563EB] shadow-[0_0_20px_rgba(225,29,72,0.3)] hover:shadow-[0_0_30px_rgba(225,29,72,0.5)] transition-all duration-300 h-12 text-base font-semibold"
+            className="w-full gap-3 bg-gradient-to-r from-primary to-accent text-primary-foreground hover:from-primary hover:to-[#2563EB] shadow-[0_0_20px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_30px_hsl(var(--primary)/0.5)] transition-all duration-300 h-12 text-base font-semibold"
             onClick={handleSignIn}
             disabled={isAuthenticating}
           >
@@ -203,7 +203,7 @@ export default function LoginPage() {
       </div>
 
       {/* Ambient glow */}
-      <div className="pointer-events-none fixed left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#E11D48]/5 blur-[100px]" />
+      <div className="pointer-events-none fixed left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-[100px]" />
 
       {/* Login form */}
       <div className="relative z-30 w-full max-w-md px-4">

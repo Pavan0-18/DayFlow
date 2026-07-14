@@ -41,17 +41,25 @@ export function Sidebar({ className }: SidebarProps) {
       <div className="relative z-10 flex h-16 items-center justify-between border-b border-border/50 px-4">
         {!collapsed ? (
           <Link href="/dashboard" className="flex items-center gap-2 group">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-[#E11D48] to-[#1D4ED8] text-white font-bold text-sm shadow-lg group-hover:shadow-[#E11D48]/30 transition-shadow">
-              SV
+            <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg shadow-lg group-hover:shadow-[#E11D48]/30 transition-shadow">
+              <img
+                src="https://i.imgur.com/QpWvHZ2.png"
+                alt="Spider-Verse"
+                className="h-full w-full object-cover"
+              />
             </div>
             <div>
-              <span className="block text-xs font-semibold text-white tracking-wider">SPIDER-VERSE</span>
+              <span className="block text-xs font-semibold text-foreground tracking-wider">SPIDER-VERSE</span>
               <span className="block text-[10px] text-muted-foreground">Command Center</span>
             </div>
           </Link>
         ) : (
-          <div className="mx-auto flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-[#E11D48] to-[#1D4ED8] text-white font-bold text-sm shadow-lg">
-            SV
+          <div className="mx-auto flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg shadow-lg">
+            <img
+              src="https://i.imgur.com/QpWvHZ2.png"
+              alt="SV"
+              className="h-full w-full object-cover"
+            />
           </div>
         )}
         <Button
@@ -79,11 +87,11 @@ export function Sidebar({ className }: SidebarProps) {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative z-10 mx-4 mt-3 rounded-lg border border-red-500/20 bg-gradient-to-r from-red-500/10 to-transparent p-2.5"
+          className="relative z-10 mx-4 mt-3 rounded-lg border border-primary/20 bg-gradient-to-r from-primary/10 to-transparent p-2.5"
         >
           <div className="flex items-center gap-2">
-            <div className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
-            <span className="text-xs font-medium text-red-400">
+            <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
+            <span className="text-xs font-medium text-primary">
               {streaks.currentStreak} day streak 🔥
             </span>
           </div>
@@ -101,7 +109,7 @@ export function Sidebar({ className }: SidebarProps) {
           <div className="flex items-center gap-2 px-2">
             <div className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
             <span className="text-[10px] text-muted-foreground">
-              Spider Sense: <span className="text-green-400">Active</span>
+              Spider Sense: <span className="text-success">Active</span>
             </span>
           </div>
         )}

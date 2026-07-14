@@ -153,7 +153,7 @@ export default function MissionsPage() {
         className="flex items-center justify-between"
       >
         <div className="flex items-center gap-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#A855F7]/20 to-[#E11D48]/20 border border-border/30">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#A855F7]/20 to-primary/20 border border-border/30">
             <Target className="h-6 w-6 text-[#A855F7]" />
           </div>
           <div>
@@ -220,7 +220,7 @@ export default function MissionsPage() {
             variant={selectedCategory === null ? "default" : "outline"}
             className={cn(
               "cursor-pointer transition-all",
-              selectedCategory === null && "bg-[#E11D48] text-white"
+              selectedCategory === null && "bg-primary text-primary-foreground"
             )}
             onClick={() => setSelectedCategory(null)}
           >
@@ -232,7 +232,7 @@ export default function MissionsPage() {
               variant={selectedCategory === category ? "default" : "outline"}
               className={cn(
                 "cursor-pointer transition-all",
-                selectedCategory === category && "bg-[#1D4ED8] text-white"
+                selectedCategory === category && "bg-accent text-accent-foreground"
               )}
               onClick={() => setSelectedCategory(category)}
             >
@@ -245,12 +245,12 @@ export default function MissionsPage() {
       {/* Mission List */}
       <div className="space-y-4">
         <div className="flex items-center gap-3">
-          <div className="h-0.5 flex-1 bg-gradient-to-r from-[#E11D48]/50 to-transparent" />
+          <div className="h-0.5 flex-1 bg-gradient-to-r from-primary/50 to-transparent" />
           <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-            <span className="inline-block h-2 w-2 rounded-full bg-red-500 animate-pulse" />
+            <span className="inline-block h-2 w-2 rounded-full bg-primary animate-pulse" />
             Active Missions
           </h3>
-          <div className="h-0.5 flex-1 bg-gradient-to-l from-[#E11D48]/50 to-transparent" />
+          <div className="h-0.5 flex-1 bg-gradient-to-l from-primary/50 to-transparent" />
         </div>
 
         {isLoading ? (
