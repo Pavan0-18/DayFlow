@@ -1,7 +1,7 @@
 "use client"
 
-import { useState, useMemo } from "react"
-import { motion } from "framer-motion"
+import { useState, useMemo, useCallback } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import { useWeeklyReport } from "@/hooks/use-reports"
 import { GlassPanel } from "@/components/spider/glass-panel"
 import { Button } from "@/components/ui/button"
@@ -11,7 +11,33 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 
 export default function WeeklyReportPage() {
   const [date, setDate] = useState(new Date())
+  const [showShare, setShowShare] = useState(false)
   const { data: report, isLoading } = useWeeklyReport(date)
+
+  const shareText = useMemo(() => {
+    if (!report) return ""
+    return [
+      `🕷️ DayFlow Weekly Report`,
+      `Week of ${format(report.weekStart, "MMM d")} - ${format(report.weekEnd, "MMM d, yyyy")}`,
+      ``,
+      `📊 Average completion: ${report.averageRate}%`,
+      `✅ Tasks completed: ${report.totalCompleted}`,
+      `🎯 Consistency score: ${report.consistencyScore}%`,
+      report.bestDay ? `🏆 Best day: ${format(report.bestDay.date, "EEEE")} (${report.bestDay.rate}%)` : "",
+      report.worstDay ? `⚠️ Worst day: ${format(report.worstDay.date, "EEEE")} (${report.worstDay.rate}%)` : "",
+      ``,
+      `Built with DayFlow — day-flow-beige.vercel.app`,
+    ].filter(Boolean).join("\n")
+  }, [report])
+
+  const copyShare = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(shareText)
+      setShowShare(false)
+    } catch {
+      // fallback
+    }
+  }, [shareText])
 
   const chartData = useMemo(() => {
     if (!report) return []
@@ -35,14 +61,31 @@ export default function WeeklyReportPage() {
 
   return (
     <div className="space-y-6">
-      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-4">
-        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#1D4ED8]/20 to-[#A855F7]/20 border border-border/30">
-          <TrendingUp className="h-6 w-6 text-[#1D4ED8]" />
+      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-accent/20 to-[#A855F7]/20 border border-border/30">
+            <TrendingUp className="h-6 w-6 text-accent" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">Weekly Intelligence Brief</h1>
+            <p className="text-sm text-muted-foreground">Analyze your weekly trends</p>
+          </div>
         </div>
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">Weekly Intelligence Brief</h1>
-          <p className="text-sm text-muted-foreground">Analyze your weekly trends</p>
-        </div>
+        {report && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowShare(true)}
+            className="gap-2 border-border/30 text-muted-foreground hover:text-foreground"
+          >
+            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+              <polyline points="16 6 12 2 8 6" />
+              <line x1="12" y1="2" x2="12" y2="15" />
+            </svg>
+            Share Report
+          </Button>
+        )}
       </motion.div>
 
       <GlassPanel variant="default" className="p-3">
@@ -125,6 +168,89 @@ export default function WeeklyReportPage() {
           </GlassPanel>
         </div>
       ) : null}
+
+      {/* Share Modal */}
+      <AnimatePresence>
+        {showShare && report && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-background/80 backdrop-blur-sm p-4"
+            onClick={() => setShowShare(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-sm rounded-2xl border border-border/50 bg-gradient-to-br from-card to-card/90 p-6 shadow-2xl"
+            >
+              {/* Card preview */}
+              <div className="rounded-xl border border-border/30 bg-gradient-to-br from-card via-card/90 to-card p-5 space-y-3">
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+                  DAYFLOW · WEEKLY REPORT
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  {format(report.weekStart, "MMM d")} – {format(report.weekEnd, "MMM d, yyyy")}
+                </p>
+                <div className="grid grid-cols-3 gap-3 py-2">
+                  <div className="text-center">
+                    <p className="text-lg font-bold text-foreground">{report.averageRate}%</p>
+                    <p className="text-[10px] text-muted-foreground">Avg Rate</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-lg font-bold text-foreground">{report.totalCompleted}</p>
+                    <p className="text-[10px] text-muted-foreground">Done</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-lg font-bold text-foreground">{report.consistencyScore}%</p>
+                    <p className="text-[10px] text-muted-foreground">Consistency</p>
+                  </div>
+                </div>
+                {report.bestDay && (
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-muted-foreground">🏆 Best day</span>
+                    <span className="font-medium text-foreground">{format(report.bestDay.date, "EEEE")} ({report.bestDay.rate}%)</span>
+                  </div>
+                )}
+                {report.worstDay && (
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-muted-foreground">⚠️ Needs work</span>
+                    <span className="font-medium text-foreground">{format(report.worstDay.date, "EEEE")} ({report.worstDay.rate}%)</span>
+                  </div>
+                )}
+                <div className="pt-1 text-[10px] text-muted-foreground/60 text-center">
+                  day-flow-beige.vercel.app
+                </div>
+              </div>
+
+              <div className="mt-4 flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowShare(false)}
+                  className="flex-1 border-border/30 text-muted-foreground"
+                >
+                  Close
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={copyShare}
+                  className="flex-1 bg-gradient-to-r from-primary to-accent text-primary-foreground"
+                >
+                  <svg className="h-4 w-4 mr-1.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                  </svg>
+                  Copy to Clipboard
+                </Button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

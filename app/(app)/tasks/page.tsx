@@ -24,7 +24,7 @@ import {
   CATEGORY_DISTRICTS,
   CATEGORY_THREAT_TYPES,
 } from "@/lib/constants/spider-theme"
-import { Plus, Search, Target, Skull } from "lucide-react"
+import { Plus, Search, Target, Skull, CheckSquare, Square, Trash2, Archive, CheckCheck, AlertTriangle } from "lucide-react"
 import {
   DndContext,
   closestCenter,
@@ -56,6 +56,7 @@ export default function MissionsPage() {
     deleteTask,
     reorderTasks,
     activeTaskCount,
+    bulkTask,
   } = useTasks()
 
   const [searchQuery, setSearchQuery] = useState("")
@@ -65,6 +66,23 @@ export default function MissionsPage() {
   const [editingTask, setEditingTask] = useState<Task | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<Task | null>(null)
   const [viewMode, setViewMode] = useState<"mission" | "list">("mission")
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
+
+  const toggleSelection = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) { next.delete(id) } else { next.add(id) }
+      return next
+    })
+  }
+
+  const selectAll = () => {
+    if (selectedIds.size === filteredActiveTasks.length) {
+      setSelectedIds(new Set())
+    } else {
+      setSelectedIds(new Set(filteredActiveTasks.map((t) => t.id)))
+    }
+  }
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -242,6 +260,68 @@ export default function MissionsPage() {
         </div>
       </GlassPanel>
 
+      {/* Bulk Action Bar */}
+      <AnimatePresence>
+        {selectedIds.size > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="flex items-center gap-2 rounded-lg border border-border/50 bg-card p-2.5 shadow-md"
+          >
+            <span className="text-xs font-medium text-muted-foreground mr-2">
+              {selectedIds.size} selected
+            </span>
+            <div className="h-4 w-px bg-border/50" />
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() =>
+                bulkTask.mutate({ action: "complete", taskIds: Array.from(selectedIds) })
+              }
+              className="text-xs text-success hover:text-success h-8"
+              disabled={bulkTask.isPending}
+            >
+              <CheckCheck className="h-3.5 w-3.5 mr-1" />
+              Complete
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() =>
+                bulkTask.mutate({ action: "deactivate", taskIds: Array.from(selectedIds) })
+              }
+              className="text-xs text-muted-foreground hover:text-foreground h-8"
+              disabled={bulkTask.isPending}
+            >
+              <Archive className="h-3.5 w-3.5 mr-1" />
+              Archive
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() =>
+                bulkTask.mutate({ action: "delete", taskIds: Array.from(selectedIds) })
+              }
+              className="text-xs text-destructive hover:text-destructive h-8"
+              disabled={bulkTask.isPending}
+            >
+              <Trash2 className="h-3.5 w-3.5 mr-1" />
+              Delete
+            </Button>
+            <div className="flex-1" />
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setSelectedIds(new Set())}
+              className="text-xs text-muted-foreground h-8"
+            >
+              Clear
+            </Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Mission List */}
       <div className="space-y-4">
         <div className="flex items-center gap-3">
@@ -250,6 +330,15 @@ export default function MissionsPage() {
             <span className="inline-block h-2 w-2 rounded-full bg-primary animate-pulse" />
             Active Missions
           </h3>
+          <button
+            onClick={selectAll}
+            className="flex items-center gap-1 text-[10px] text-muted-foreground hover:text-foreground transition-colors"
+          >
+            {selectedIds.size === filteredActiveTasks.length && filteredActiveTasks.length > 0
+              ? <Square className="h-3 w-3" />
+              : <CheckSquare className="h-3 w-3" />}
+            Select
+          </button>
           <div className="h-0.5 flex-1 bg-gradient-to-l from-primary/50 to-transparent" />
         </div>
 
@@ -272,16 +361,31 @@ export default function MissionsPage() {
         ) : viewMode === "mission" ? (
           <div className="grid gap-3 sm:grid-cols-2">
             {filteredActiveTasks.map((task, index) => {
-              // Derive threat level and priority from the task's category rather than hardcoded values
               const categoryPriority = categoryToPriority(task.category)
               const categoryThreatLevel = categoryToThreatLevel(task.category)
+              const isSelected = selectedIds.has(task.id)
               return (
                 <motion.div
                   key={task.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
+                  className={cn(
+                    "relative group cursor-pointer transition-all duration-200",
+                    isSelected && "ring-2 ring-primary rounded-xl",
+                  )}
+                  onClick={() => toggleSelection(task.id)}
                 >
+                  <div className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className={cn(
+                      "flex h-5 w-5 items-center justify-center rounded border transition-colors",
+                      isSelected
+                        ? "bg-primary border-primary text-primary-foreground opacity-100"
+                        : "border-border/50 bg-card/80"
+                    )}>
+                      {isSelected ? <CheckSquare className="h-3 w-3" /> : <Square className="h-3 w-3" />}
+                    </div>
+                  </div>
                   <MissionCard
                     title={task.title}
                     status={getMissionStatus(false, task.isActive)}
@@ -289,7 +393,6 @@ export default function MissionsPage() {
                     priority={categoryPriority}
                     villain={CATEGORY_THREAT_TYPES[task.category] || "Unknown Threat"}
                     location={CATEGORY_DISTRICTS[task.category] || "NYC"}
-                    // No progress bar on the mission board — progress is only shown in daily context
                   />
                 </motion.div>
               )
@@ -306,24 +409,41 @@ export default function MissionsPage() {
               strategy={verticalListSortingStrategy}
             >
               <div className="space-y-2">
-                {filteredActiveTasks.map((task) => (
-                  <motion.div
-                    key={task.id}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                  >
-                    <TaskRow
-                      id={task.id}
-                      title={task.title}
-                      icon={task.icon}
-                      category={task.category}
-                      color={task.color}
-                      isActive={task.isActive}
-                      onToggleActive={(isActive) => handleToggleActive(task.id, isActive)}
-                      onEdit={() => openEditSheet(task)}
-                    />
-                  </motion.div>
-                ))}
+                {filteredActiveTasks.map((task) => {
+                  const isSelected = selectedIds.has(task.id)
+                  return (
+                    <motion.div
+                      key={task.id}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="flex items-center gap-2"
+                    >
+                      <button
+                        onClick={() => toggleSelection(task.id)}
+                        className={cn(
+                          "flex h-5 w-5 shrink-0 items-center justify-center rounded border transition-colors",
+                          isSelected
+                            ? "bg-primary border-primary text-primary-foreground"
+                            : "border-border/50 hover:border-primary/50"
+                        )}
+                      >
+                        {isSelected && <CheckSquare className="h-3 w-3" />}
+                      </button>
+                      <div className="flex-1">
+                        <TaskRow
+                          id={task.id}
+                          title={task.title}
+                          icon={task.icon}
+                          category={task.category}
+                          color={task.color}
+                          isActive={task.isActive}
+                          onToggleActive={(isActive) => handleToggleActive(task.id, isActive)}
+                          onEdit={() => openEditSheet(task)}
+                        />
+                      </div>
+                    </motion.div>
+                  )
+                })}
               </div>
             </SortableContext>
           </DndContext>

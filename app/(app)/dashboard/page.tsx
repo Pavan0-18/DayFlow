@@ -20,6 +20,7 @@ import { ThreatLevel } from "@/components/spider/threat-level"
 import { MissionCard } from "@/components/spider/mission-card"
 import { RankBadge, getRankFromXp } from "@/components/spider/rank-badge"
 import { getMotivationalMessage } from "@/lib/utils"
+import { OnboardingTour } from "@/components/shared/onboarding-tour"
 import { showTaskCompletedToast } from "@/lib/notifications/show-toasts"
 import {
   buildDistrictIntel,
@@ -184,7 +185,7 @@ export default function SpiderHQPage() {
       </div>
 
       {/* Hero Stats Grid */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         <HeroStat
           label="City Security"
           value={`${completionPercentage}%`}
@@ -217,9 +218,9 @@ export default function SpiderHQPage() {
       </div>
 
       {/* Main Command Grid */}
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-3">
         {/* Left: City Intel + Radar */}
-        <div className="space-y-6 lg:col-span-1">
+          <div className="space-y-6 md:col-span-1">
           {/* Spider Sense Status */}
           <GlassPanel variant="holographic" className="p-4">
             <div className="flex flex-col items-center gap-3">
@@ -255,7 +256,7 @@ export default function SpiderHQPage() {
         </div>
 
         {/* Center: City Intel Map */}
-        <div className="lg:col-span-2 space-y-4">
+        <div className="md:col-span-2 space-y-4">
           {/* Mission Progress */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -314,7 +315,7 @@ export default function SpiderHQPage() {
             }}
           />
         ) : (
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
             {items.map((item, index) => {
               const districtName = CATEGORY_DISTRICTS[item.task.category] || "NYC"
               // Derive priority from actual task category rather than array index
@@ -360,6 +361,9 @@ export default function SpiderHQPage() {
           </div>
         )}
       </div>
+
+      {/* Onboarding Tour */}
+      <OnboardingTour />
 
       {/* Quick Action FAB */}
       <motion.div

@@ -82,6 +82,25 @@ export class TaskRepository {
     })
     return count
   }
+
+  async bulkUpdate(
+    taskIds: string[],
+    data: Partial<Pick<Task, "isActive">>,
+    userId: string,
+  ): Promise<number> {
+    const result = await db.task.updateMany({
+      where: { id: { in: taskIds }, userId },
+      data,
+    })
+    return result.count
+  }
+
+  async bulkDelete(taskIds: string[], userId: string): Promise<number> {
+    const result = await db.task.deleteMany({
+      where: { id: { in: taskIds }, userId },
+    })
+    return result.count
+  }
 }
 
 export const taskRepository = new TaskRepository()

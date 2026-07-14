@@ -19,6 +19,12 @@ export const reorderTasksSchema = z.object({
   taskIds: z.array(z.string()),
 })
 
+export const bulkTaskSchema = z.object({
+  action: z.enum(["complete", "delete", "activate", "deactivate"]),
+  taskIds: z.array(z.string()).min(1, "At least one task is required"),
+  date: z.string().optional(),
+})
+
 export type CreateTaskInput = z.infer<typeof createTaskSchema>
 export type UpdateTaskInput = z.infer<typeof updateTaskSchema>
 export type ReorderTasksInput = z.infer<typeof reorderTasksSchema>

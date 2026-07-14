@@ -61,6 +61,17 @@ async function reorderTasksApi(taskIds: string[]): Promise<void> {
   if (!response.ok) throw new Error(await parseError(response, 'Failed to reorder tasks'))
 }
 
+async function bulkTaskApi(input: { action: string; taskIds: string[] }): Promise<{ affected: number }> {
+  const response = await fetch('/api/tasks/bulk', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(input),
+  })
+  if (!response.ok) throw new Error(await parseError(response, 'Bulk operation failed'))
+  const { data } = await response.json()
+  return data
+}
+
 function invalidateRelatedQueries(queryClient: ReturnType<typeof useQueryClient>) {
   queryClient.invalidateQueries({ queryKey: [TASKS_KEY] })
   queryClient.invalidateQueries({ queryKey: DASHBOARD_KEY })
@@ -125,6 +136,15 @@ export function useTasks() {
     },
   })
 
+  const bulkTask = useMutation({
+    mutationFn: bulkTaskApi,
+    onSuccess: (_data, vars) => {
+      invalidateRelatedQueries(queryClient)
+      showSuccessToast(`${vars.taskIds.length} missions ${vars.action === 'delete' ? 'deleted' : 'updated'}`)
+    },
+    onError: (err: Error) => showErrorToast('Bulk operation failed', err.message),
+  })
+
   const activeTasks = tasks.filter((t) => t.isActive)
   const inactiveTasks = tasks.filter((t) => !t.isActive)
   const activeTaskCount = activeTasks.length
@@ -140,5 +160,6 @@ export function useTasks() {
     updateTask,
     deleteTask,
     reorderTasks,
+    bulkTask,
   }
 }
