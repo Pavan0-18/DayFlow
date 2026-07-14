@@ -116,15 +116,11 @@ export class ScheduleRepository {
     return conflicts
   }
 
-  async createMany(data: CreateScheduledTaskInput[], userId: string): Promise<ScheduledTask[]> {
-    const tasks = await db.$transaction(
-      data.map((item) =>
-        db.scheduledTask.create({
-          data: { ...item, userId },
-        })
-      )
-    )
-    return tasks
+  async createMany(data: CreateScheduledTaskInput[], userId: string): Promise<number> {
+    const result = await db.scheduledTask.createMany({
+      data: data.map((item) => ({ ...item, userId })),
+    })
+    return result.count
   }
 }
 

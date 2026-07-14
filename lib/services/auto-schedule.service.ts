@@ -134,23 +134,20 @@ export class AutoScheduleService {
   }
 
   async applySchedule(userId: string, date: Date, suggestions: ScheduledTaskSuggestion[]): Promise<void> {
-    // Clear existing schedule for the date
     await scheduleRepository.deleteByDate(userId, date)
-
-    // Create new scheduled tasks
-    for (const suggestion of suggestions) {
-      await scheduleRepository.create(
-        {
-          taskId: suggestion.taskId,
-          date: date.toISOString(),
-          startTime: suggestion.startTime,
-          endTime: suggestion.endTime,
-          priority: suggestion.priority,
-          duration: suggestion.duration,
-        },
-        userId
-      )
-    }
+    if (suggestions.length === 0) return
+    const dateStr = date.toISOString()
+    await scheduleRepository.createMany(
+      suggestions.map((s) => ({
+        taskId: s.taskId,
+        date: dateStr,
+        startTime: s.startTime,
+        endTime: s.endTime,
+        priority: s.priority,
+        duration: s.duration,
+      })),
+      userId
+    )
   }
 }
 

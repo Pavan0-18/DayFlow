@@ -75,15 +75,9 @@ export class ReportRepository {
     const weekEnd = endOfWeek(date, { weekStartsOn: 1 })
 
     const logs = await db.dailyLog.findMany({
-      where: {
-        userId,
-        date: {
-          gte: weekStart,
-          lte: weekEnd,
-        },
-      },
+      where: { userId, date: { gte: weekStart, lte: weekEnd } },
       include: {
-        items: true,
+        items: { select: { completed: true } },
       },
     })
 
@@ -222,8 +216,13 @@ export class ReportRepository {
   async getStreakData(userId: string): Promise<{ currentStreak: number; bestStreak: number; perfectDays: number }> {
     const logs = await db.dailyLog.findMany({
       where: { userId },
-      include: { items: true },
+      include: {
+        items: {
+          select: { completed: true },
+        },
+      },
       orderBy: { date: 'desc' },
+      take: 1000,
     })
 
     let currentStreak = 0

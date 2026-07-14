@@ -19,6 +19,14 @@ export class TaskRepository {
     return tasks
   }
 
+  async findActiveIdsByUser(userId: string): Promise<{ id: string }[]> {
+    return db.task.findMany({
+      where: { userId, isActive: true },
+      select: { id: true },
+      orderBy: { sortOrder: 'asc' },
+    })
+  }
+
   async findById(id: string, userId: string): Promise<Task | null> {
     const task = await db.task.findFirst({
       where: { id, userId },

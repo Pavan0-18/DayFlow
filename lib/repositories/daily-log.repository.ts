@@ -62,16 +62,16 @@ export class DailyLogRepository {
     date: Date,
     log: LogWithItems
   ): Promise<LogWithItems> {
-    const activeTasks = await taskRepository.findActiveByUser(userId)
+    const activeTasks = await taskRepository.findActiveIdsByUser(userId)
     const existingTaskIds = new Set(log.items.map((item) => item.taskId))
-    const missingTasks = activeTasks.filter((task) => !existingTaskIds.has(task.id))
+    const missingIds = activeTasks.filter((task) => !existingTaskIds.has(task.id)).map((t) => t.id)
 
-    if (missingTasks.length === 0) return log
+    if (missingIds.length === 0) return log
 
     await db.dailyLogItem.createMany({
-      data: missingTasks.map((task) => ({
+      data: missingIds.map((id) => ({
         dailyLogId: log.id,
-        taskId: task.id,
+        taskId: id,
         completed: false,
       })),
     })
