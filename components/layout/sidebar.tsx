@@ -43,7 +43,7 @@ export function Sidebar({ className }: SidebarProps) {
           <Link href="/dashboard" className="flex items-center gap-2 group">
             <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg shadow-lg group-hover:shadow-[#E11D48]/30 transition-shadow">
               <img
-                src="https://i.imgur.com/QpWvHZ2.png"
+                src="/spiderman.jpeg"
                 alt="Spider-Verse"
                 className="h-full w-full object-cover"
               />
@@ -56,7 +56,7 @@ export function Sidebar({ className }: SidebarProps) {
         ) : (
           <div className="mx-auto flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg shadow-lg">
             <img
-              src="https://i.imgur.com/QpWvHZ2.png"
+              src="/spiderman.jpeg"
               alt="SV"
               className="h-full w-full object-cover"
             />
