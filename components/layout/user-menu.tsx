@@ -49,13 +49,13 @@ export function UserMenu() {
             </AvatarFallback>
           </Avatar>
           {/* Active indicator */}
-          <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#0A0F1E] bg-green-400" />
+          <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-background bg-green-400" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-64 border-white/10 bg-[#0F172A]/95 backdrop-blur-xl" align="end" forceMount>
+      <DropdownMenuContent className="w-64 border-border/30 bg-card/95 backdrop-blur-xl" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none text-white">{user.name}</p>
+            <p className="text-sm font-medium leading-none text-foreground">{user.name}</p>
             <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
             <div className="mt-1.5 flex items-center gap-1.5">
               <Shield className="h-3 w-3 text-[#E11D48]" />
@@ -65,9 +65,9 @@ export function UserMenu() {
             </div>
           </div>
         </DropdownMenuLabel>
-        <DropdownMenuSeparator className="bg-white/5" />
+        <DropdownMenuSeparator className="bg-border/50" />
         <Link href="/settings">
-          <DropdownMenuItem className="text-muted-foreground hover:text-white focus:text-white">
+          <DropdownMenuItem className="text-muted-foreground hover:text-foreground focus:text-foreground">
             <Settings className="mr-2 h-4 w-4" />
             Suit Configuration
           </DropdownMenuItem>

@@ -90,7 +90,7 @@ function LoginContent() {
       </svg>
 
       {/* Glass panel */}
-      <div className="relative rounded-2xl border border-white/10 bg-[#0F172A]/80 backdrop-blur-xl p-8 shadow-[0_0_50px_rgba(225,29,72,0.1)]">
+      <div className="relative rounded-2xl border border-border/30 bg-card/80 backdrop-blur-xl p-8 shadow-[0_0_50px_rgba(225,29,72,0.1)]">
         {/* Spider logo */}
         <div className="mb-6 text-center">
           <motion.div
@@ -105,7 +105,7 @@ function LoginContent() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="mt-4 text-2xl font-bold text-white"
+            className="mt-4 text-2xl font-bold text-foreground"
           >
             Spider-Verse OS
           </motion.h2>
@@ -164,9 +164,9 @@ function LoginContent() {
 
         {/* Decorative web line */}
         <div className="mt-6 flex items-center justify-center gap-3">
-          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-foreground/10 to-transparent" />
           <span className="text-xs text-slate-600">🕷️</span>
-          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-foreground/10 to-transparent" />
         </div>
       </div>
     </motion.div>
@@ -175,7 +175,7 @@ function LoginContent() {
 
 export default function LoginPage() {
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#020617]">
+    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background">
       {/* NYC Skyline Background */}
       <div className="absolute inset-0">
         <NySkyline variant="night" />

@@ -1,12 +1,12 @@
 "use client"
 
-import { useState, useTransition, useEffect } from "react"
+import { useState, useTransition } from "react"
 import { useSearchParams } from "next/navigation"
 import { motion } from "framer-motion"
+import { useTheme } from "next-themes"
 import { useSession, signOut } from "next-auth/react"
 import { useSettings } from "@/hooks/use-settings"
 import { ConfirmDialog } from "@/components/shared/confirm-dialog"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
@@ -16,18 +16,15 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
 import { GlassPanel } from "@/components/spider/glass-panel"
-import { ThreatLevel } from "@/components/spider/threat-level"
 import {
   Bell,
   Moon,
   Sun,
   Monitor,
-  User,
   Palette,
   Trash2,
   LogOut,
   Download,
-  BellRing,
   Clock,
   Sparkles,
   Shield,
@@ -72,11 +69,11 @@ function NotificationToggleRow({
       transition={{ duration: 0.35, delay }}
       className={cn(
         "flex items-center justify-between rounded-xl border p-4 backdrop-blur-sm transition-colors",
-        "border-white/5 bg-white/5 hover:bg-white/10"
+        "border-border/50 bg-muted/50 hover:bg-muted/80"
       )}
     >
       <div>
-        <Label className="text-white">{label}</Label>
+        <Label className="text-foreground">{label}</Label>
         <p className="text-sm text-muted-foreground">{description}</p>
       </div>
       <Switch
@@ -90,6 +87,7 @@ function NotificationToggleRow({
 
 export default function SuitLabPage() {
   const { data: session } = useSession()
+  const { theme: nextTheme, setTheme } = useTheme()
   const { settings, updateSettings } = useSettings()
   const searchParams = useSearchParams()
   const [activeTab, setActiveTab] = useState(searchParams.get("tab") || "profile")
@@ -106,6 +104,7 @@ export default function SuitLabPage() {
     .toUpperCase() || user?.email?.[0].toUpperCase() || "U"
 
   const handleThemeChange = (theme: Theme) => {
+    setTheme(theme.toLowerCase())
     updateSettings.mutate({ theme })
   }
 
@@ -176,11 +175,11 @@ export default function SuitLabPage() {
         className="flex items-center justify-between"
       >
         <div className="flex items-center gap-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#22D3EE]/20 to-[#1D4ED8]/20 border border-white/10">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#22D3EE]/20 to-[#1D4ED8]/20 border border-border/30">
             <Settings2 className="h-6 w-6 text-[#22D3EE]" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-white">Suit Lab</h1>
+            <h1 className="text-2xl font-bold text-foreground">Suit Lab</h1>
             <p className="text-sm text-muted-foreground">
               Configure your hero equipment and systems
             </p>
@@ -189,7 +188,7 @@ export default function SuitLabPage() {
       </motion.div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-        <TabsList className="grid w-full grid-cols-4 rounded-xl bg-white/5 p-1 border border-white/5">
+        <TabsList className="grid w-full grid-cols-4 rounded-xl bg-muted/50 p-1 border border-border/50">
           <TabsTrigger value="profile" className="rounded-lg data-[state=active]:bg-[#1D4ED8]/20 data-[state=active]:text-[#1D4ED8] text-xs">
             <Shield className="h-3.5 w-3.5 mr-1" />
             Hero Profile
@@ -219,7 +218,7 @@ export default function SuitLabPage() {
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="text-lg font-semibold text-white">{user?.name || "Hero"}</p>
+                  <p className="text-lg font-semibold text-foreground">{user?.name || "Hero"}</p>
                   <p className="text-sm text-muted-foreground">{user?.email}</p>
                   <Badge variant="outline" className="mt-1 border-[#1D4ED8]/30 text-[#1D4ED8] text-[10px]">
                     <Shield className="h-3 w-3 mr-1" />
@@ -227,10 +226,10 @@ export default function SuitLabPage() {
                   </Badge>
                 </div>
               </div>
-              <Separator className="bg-white/5" />
+              <Separator className="bg-border/50" />
               <div className="mt-4 space-y-2">
                 <Label className="text-xs text-muted-foreground uppercase tracking-wider">Authentication</Label>
-                <Badge variant="outline" className="border-white/10 text-muted-foreground">Google Identity</Badge>
+                <Badge variant="outline" className="border-border/30 text-muted-foreground">Google Identity</Badge>
               </div>
             </GlassPanel>
           </motion.div>
@@ -246,7 +245,7 @@ export default function SuitLabPage() {
                       <Radio className="h-5 w-5 text-[#E11D48]" />
                     </div>
                     <div>
-                      <p className="font-medium text-white">Enable Spider Sense</p>
+                      <p className="font-medium text-foreground">Enable Spider Sense</p>
                       <p className="text-sm text-muted-foreground">
                         Required for threat alerts, mission notifications, and hero updates.
                       </p>
@@ -267,13 +266,13 @@ export default function SuitLabPage() {
             <GlassPanel variant="strong" className="p-6">
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-white">Spider Sense Calibration</h3>
+                  <h3 className="text-lg font-semibold text-foreground">Spider Sense Calibration</h3>
                   <p className="text-sm text-muted-foreground">Configure your neural threat detection</p>
                 </div>
                 <Badge
                   variant="outline"
                   className={cn(
-                    permission === 'granted' ? 'border-green-500/30 text-green-400' : 'border-white/10 text-muted-foreground'
+                    permission === 'granted' ? 'border-green-500/30 text-green-400' : 'border-border/30 text-muted-foreground'
                   )}
                 >
                   {permission === 'granted' ? '🟢 Active' : permission === 'denied' ? '🔴 Blocked' : '⚪ Off'}
@@ -292,19 +291,19 @@ export default function SuitLabPage() {
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
-                    className="flex items-center justify-between rounded-xl border border-white/5 bg-white/5 p-4"
+                    className="flex items-center justify-between rounded-xl border border-border/50 bg-muted/50 p-4"
                   >
                     <div className="flex items-center gap-2">
                       <Clock className="h-4 w-4 text-muted-foreground" />
                       <div>
-                        <Label htmlFor="reminderTime" className="text-white">Alert time</Label>
+                        <Label htmlFor="reminderTime" className="text-foreground">Alert time</Label>
                         <p className="text-xs text-muted-foreground">Local patrol time</p>
                       </div>
                     </div>
                     <Input
                       id="reminderTime"
                       type="time"
-                      className="w-32 bg-white/5 border-white/10 text-white"
+                      className="w-32 bg-muted/50 border-border/30 text-foreground"
                       value={settings?.reminderTime ?? '08:00'}
                       onChange={(e) => updateSettings.mutate({ reminderTime: e.target.value })}
                     />
@@ -327,10 +326,10 @@ export default function SuitLabPage() {
                   delay={0.1}
                 />
 
-                <Separator className="bg-white/5 my-4" />
+                <Separator className="bg-border/50 my-4" />
 
                 <div className="flex flex-wrap gap-2">
-                  <Button variant="outline" size="sm" onClick={handleTestNotification} className="gap-2 border-white/10 text-muted-foreground hover:text-white">
+                  <Button variant="outline" size="sm" onClick={handleTestNotification} className="gap-2 border-border/30 text-muted-foreground hover:text-foreground">
                     <Sparkles className="h-4 w-4" />
                     Test Spider Sense
                   </Button>
@@ -343,7 +342,7 @@ export default function SuitLabPage() {
         <TabsContent value="appearance" className="space-y-4">
           <motion.div {...fadeUp}>
             <GlassPanel variant="strong" className="p-6">
-              <h3 className="text-lg font-semibold text-white mb-2">Suit Color Scheme</h3>
+              <h3 className="text-lg font-semibold text-foreground mb-2">Suit Color Scheme</h3>
               <p className="text-sm text-muted-foreground mb-6">Choose your hero suit appearance</p>
               <Label className="text-sm text-muted-foreground mb-3 block">Suit Variant</Label>
               <div className="grid grid-cols-3 gap-3">
@@ -360,13 +359,13 @@ export default function SuitLabPage() {
                     onClick={() => handleThemeChange(value)}
                     className={cn(
                       'flex flex-col items-center gap-2 rounded-xl border p-4 transition-all',
-                      settings?.theme === value
+                      (nextTheme?.toUpperCase() || settings?.theme) === value
                         ? 'border-[#1D4ED8]/50 bg-[#1D4ED8]/10 shadow-md'
-                        : 'border-white/5 bg-white/5 hover:bg-white/10'
+                        : 'border-border/50 bg-muted/50 hover:bg-muted/80'
                     )}
                   >
                     <div className={cn("h-8 w-8 rounded-full bg-gradient-to-br", color)} />
-                    <span className="text-sm font-medium text-white">{label}</span>
+                    <span className="text-sm font-medium text-foreground">{label}</span>
                     {value === Theme.DARK && <span className="text-[10px] text-muted-foreground">Default</span>}
                   </motion.button>
                 ))}
@@ -385,18 +384,18 @@ export default function SuitLabPage() {
               <p className="text-sm text-muted-foreground mb-6">Irreversible actions — handle with care</p>
 
               <div className="space-y-4">
-                <div className="flex items-center justify-between rounded-xl border border-white/5 bg-white/5 p-4">
+                <div className="flex items-center justify-between rounded-xl border border-border/50 bg-muted/50 p-4">
                   <div>
-                    <Label className="text-white">Export Hero Data</Label>
+                    <Label className="text-foreground">Export Hero Data</Label>
                     <p className="text-sm text-muted-foreground">Download a copy of all mission data</p>
                   </div>
-                  <Button variant="outline" onClick={handleExportData} disabled={isExporting} className="border-white/10 text-muted-foreground hover:text-white">
+                  <Button variant="outline" onClick={handleExportData} disabled={isExporting} className="border-border/30 text-muted-foreground hover:text-foreground">
                     <Download className="mr-2 h-4 w-4" />
                     {isExporting ? "Exporting..." : "Export"}
                   </Button>
                 </div>
 
-                <Separator className="bg-white/5" />
+                <Separator className="bg-border/50" />
 
                 <div className="flex items-center justify-between rounded-xl border border-red-500/20 bg-red-500/10 p-4">
                   <div>
@@ -409,14 +408,14 @@ export default function SuitLabPage() {
                   </Button>
                 </div>
 
-                <Separator className="bg-white/5" />
+                <Separator className="bg-border/50" />
 
-                <div className="flex items-center justify-between rounded-xl border border-white/5 bg-white/5 p-4">
+                <div className="flex items-center justify-between rounded-xl border border-border/50 bg-muted/50 p-4">
                   <div>
-                    <Label className="text-white">Sign Out</Label>
+                    <Label className="text-foreground">Sign Out</Label>
                     <p className="text-sm text-muted-foreground">End your hero session</p>
                   </div>
-                  <Button variant="outline" onClick={() => signOut({ callbackUrl: "/" })} className="border-white/10 text-muted-foreground hover:text-white">
+                  <Button variant="outline" onClick={() => signOut({ callbackUrl: "/" })} className="border-border/30 text-muted-foreground hover:text-foreground">
                     <LogOut className="mr-2 h-4 w-4" />
                     Sign Out
                   </Button>

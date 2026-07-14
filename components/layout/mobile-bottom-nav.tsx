@@ -30,7 +30,7 @@ export function MobileBottomNav({ className }: MobileBottomNavProps) {
   return (
     <nav
       className={cn(
-        "fixed bottom-0 left-0 right-0 z-50 border-t border-white/10 bg-[#0A0F1E]/95 backdrop-blur-xl",
+        "fixed bottom-0 left-0 right-0 z-50 border-t border-border/30 bg-card/95 backdrop-blur-xl",
         className
       )}
     >
@@ -47,7 +47,7 @@ export function MobileBottomNav({ className }: MobileBottomNavProps) {
                 "relative flex flex-col items-center gap-0.5 px-3 py-1.5 transition-all duration-200",
                 isActive
                   ? "text-[#E11D48]"
-                  : "text-muted-foreground hover:text-white"
+                  : "text-muted-foreground hover:text-foreground"
               )}
             >
               {isActive && (

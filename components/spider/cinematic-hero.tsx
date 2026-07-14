@@ -155,7 +155,7 @@ export function CinematicHero({ onComplete }: CinematicHeroProps) {
   }, [onComplete])
 
   return (
-    <section className="relative min-h-screen overflow-hidden bg-[#020617]">
+    <section className="relative min-h-screen overflow-hidden bg-background">
       {/* Full-screen cinematic background */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#020617] via-[#0a0f1e] to-[#020617]" />
 
@@ -281,7 +281,7 @@ export function CinematicHero({ onComplete }: CinematicHeroProps) {
                   <span className="text-3xl">🚨</span>
                 </div>
                 <p className="text-base tracking-[0.2em] text-slate-500 sm:text-lg">
-                  NEW YORK CITY
+                  BANGALORE CITY
                 </p>
               </motion.div>
             </motion.div>

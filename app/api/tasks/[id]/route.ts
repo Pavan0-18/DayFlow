@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
-import { withAuth, withRateLimit } from "@/lib/api-middleware"
+import { withAuth, withRateLimit, withValidation } from "@/lib/api-middleware"
 import { taskRepository, dailyLogRepository } from "@/lib/repositories"
+import { updateTaskSchema } from "@/lib/validations/task.schema"
 import { startOfDay } from "date-fns"
 
 export const GET = withAuth(withRateLimit(async (_req, { userId, params }) => {
@@ -9,8 +10,7 @@ export const GET = withAuth(withRateLimit(async (_req, { userId, params }) => {
   return NextResponse.json({ data: task })
 }))
 
-export const PATCH = withAuth(withRateLimit(async (req, { userId, params }) => {
-  const body = await req.json()
+export const PATCH = withAuth(withRateLimit(withValidation(updateTaskSchema, async (req, { userId, params, body }) => {
   const { id: _id, ...updateData } = body
   const task = await taskRepository.update(params.id, updateData, userId)
   if (updateData.isActive !== false) {
@@ -19,7 +19,7 @@ export const PATCH = withAuth(withRateLimit(async (req, { userId, params }) => {
     await dailyLogRepository.syncActiveTasks(userId, today, log)
   }
   return NextResponse.json({ data: task })
-}))
+})))
 
 export const DELETE = withAuth(withRateLimit(async (_req, { userId, params }) => {
   await taskRepository.delete(params.id, userId)

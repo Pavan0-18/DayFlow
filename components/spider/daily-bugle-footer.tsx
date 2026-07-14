@@ -17,7 +17,7 @@ export function DailyBugleFooter({ className }: DailyBugleFooterProps) {
   })
 
   return (
-    <footer className={cn("relative overflow-hidden border-t border-white/5 bg-[#020617]", className)}>
+    <footer className={cn("relative overflow-hidden border-t border-border/50 bg-background", className)}>
       {/* Decorative web pattern */}
       <div className="pointer-events-none absolute inset-0 opacity-[0.03]">
         <svg className="h-full w-full" viewBox="0 0 1440 300">
@@ -42,7 +42,7 @@ export function DailyBugleFooter({ className }: DailyBugleFooterProps) {
       <div className="relative mx-auto max-w-6xl px-4 py-16">
         {/* Top: Daily Bugle Header */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-3 rounded-full border border-white/5 bg-white/[0.02] px-5 py-2">
+          <div className="inline-flex items-center gap-3 rounded-full border border-border/50 bg-white/[0.02] px-5 py-2">
             <Radio className="h-3 w-3 text-red-400" />
             <span className="text-xs font-semibold tracking-[0.15em] text-slate-500 uppercase">
               DayFlow Network
@@ -57,7 +57,7 @@ export function DailyBugleFooter({ className }: DailyBugleFooterProps) {
               <Clock className="h-3 w-3" />
               <span className="uppercase tracking-wider">Live Dashboard</span>
             </div>
-            <p className="text-lg font-bold text-white">{timeString}</p>
+            <p className="text-lg font-bold text-foreground">{timeString}</p>
             <p className="text-[10px] text-muted-foreground mt-1">
               {now.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
             </p>
@@ -95,7 +95,7 @@ export function DailyBugleFooter({ className }: DailyBugleFooterProps) {
         </div>
 
         {/* Bottom */}
-        <div className="mt-10 border-t border-white/5 pt-6 text-center">
+        <div className="mt-10 border-t border-border/50 pt-6 text-center">
           <p className="text-xs text-slate-700 flex items-center justify-center gap-2">
             <span>© {now.getFullYear()} DayFlow</span>
             <span className="inline-block h-1 w-1 rounded-full bg-slate-700" />

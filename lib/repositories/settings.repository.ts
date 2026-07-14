@@ -11,11 +11,10 @@ export class SettingsRepository {
   }
 
   async findOrCreate(userId: string): Promise<UserSettings> {
-    const existing = await this.findByUserId(userId)
-    if (existing) return existing
-
-    const settings = await db.userSettings.create({
-      data: {
+    const settings = await db.userSettings.upsert({
+      where: { userId },
+      update: {},
+      create: {
         userId,
         theme: Theme.SYSTEM,
         weekStartDay: WeekDay.MONDAY,

@@ -15,11 +15,11 @@ export default function AchievementsPage() {
   return (
     <div className="space-y-6">
       <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-4">
-        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#F59E0B]/20 to-[#E11D48]/20 border border-white/10">
+        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#F59E0B]/20 to-[#E11D48]/20 border border-border/30">
           <Trophy className="h-6 w-6 text-[#F59E0B]" />
         </div>
         <div>
-          <h1 className="text-2xl font-bold text-white">Hero Awards</h1>
+          <h1 className="text-2xl font-bold text-foreground">Hero Awards</h1>
           <p className="text-sm text-muted-foreground">{unlockedCount} of {totalCount} achievements unlocked</p>
         </div>
       </motion.div>
@@ -29,21 +29,21 @@ export default function AchievementsPage() {
           <Trophy className="h-8 w-8 text-[#F59E0B]" />
           <div>
             <p className="text-xs text-muted-foreground">Completion</p>
-            <p className="text-lg font-bold text-white">{progressPercentage}%</p>
+            <p className="text-lg font-bold text-foreground">{progressPercentage}%</p>
           </div>
         </GlassPanel>
         <GlassPanel variant="holographic" className="p-4 flex items-center gap-3">
           <Flame className="h-8 w-8 text-orange-500" />
           <div>
             <p className="text-xs text-muted-foreground">Current streak</p>
-            <p className="text-lg font-bold text-white">{streaks?.currentStreak || 0} days</p>
+            <p className="text-lg font-bold text-foreground">{streaks?.currentStreak || 0} days</p>
           </div>
         </GlassPanel>
         <GlassPanel variant="holographic" className="p-4 flex items-center gap-3">
           <Calendar className="h-8 w-8 text-[#22D3EE]" />
           <div>
             <p className="text-xs text-muted-foreground">Perfect days</p>
-            <p className="text-lg font-bold text-white">{streaks?.perfectDays || 0}</p>
+            <p className="text-lg font-bold text-foreground">{streaks?.perfectDays || 0}</p>
           </div>
         </GlassPanel>
       </div>

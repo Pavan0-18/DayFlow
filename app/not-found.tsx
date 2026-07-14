@@ -5,7 +5,7 @@ import { NySkyline } from "@/components/spider/ny-skyline"
 
 export default function NotFound() {
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#020617] p-4">
+    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background p-4">
       {/* Background */}
       <div className="absolute inset-0 opacity-30">
         <NySkyline variant="night" />
@@ -16,7 +16,7 @@ export default function NotFound() {
         <div className="mb-6 text-8xl">
           🕸️
         </div>
-        <h1 className="text-6xl font-bold text-white">Dimension Lost</h1>
+        <h1 className="text-6xl font-bold text-foreground">Dimension Lost</h1>
         <p className="mt-4 text-xl text-muted-foreground">
           404 — This universe doesn&apos;t exist
         </p>
@@ -32,7 +32,7 @@ export default function NotFound() {
             </Button>
           </Link>
           <Link href="/">
-            <Button variant="outline" className="gap-2 border-white/10 text-muted-foreground">
+            <Button variant="outline" className="gap-2 border-border/30 text-muted-foreground">
               <Compass className="h-4 w-4" />
               Explore
             </Button>

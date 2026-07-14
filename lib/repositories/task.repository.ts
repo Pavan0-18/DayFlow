@@ -52,24 +52,16 @@ export class TaskRepository {
   }
 
   async update(id: string, data: Omit<UpdateTaskInput, 'id'>, userId: string): Promise<Task> {
-    const existing = await this.findById(id, userId)
-    if (!existing) {
-      throw new Error('Task not found')
-    }
     const task = await db.task.update({
-      where: { id },
+      where: { id, userId },
       data,
     })
     return task
   }
 
   async delete(id: string, userId: string): Promise<void> {
-    const existing = await this.findById(id, userId)
-    if (!existing) {
-      throw new Error('Task not found')
-    }
     await db.task.delete({
-      where: { id },
+      where: { id, userId },
     })
   }
 

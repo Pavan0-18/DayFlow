@@ -51,11 +51,11 @@ export default function PatrolRoutePage() {
         className="flex items-center justify-between"
       >
         <div className="flex items-center gap-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#22D3EE]/20 to-[#1D4ED8]/20 border border-white/10">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#22D3EE]/20 to-[#1D4ED8]/20 border border-border/30">
             <Radar className="h-6 w-6 text-[#22D3EE]" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-white">City Intel</h1>
+            <h1 className="text-2xl font-bold text-foreground">City Intel</h1>
             <p className="text-sm text-muted-foreground">
               Patrol Route · {totalScheduled} {totalScheduled === 1 ? "stop" : "stops"}
             </p>
@@ -66,18 +66,18 @@ export default function PatrolRoutePage() {
       {/* Date Navigator */}
       <GlassPanel variant="default" className="p-3">
         <div className="flex items-center justify-between">
-          <Button variant="ghost" size="icon" onClick={handlePreviousDay} className="text-muted-foreground hover:text-white">
+          <Button variant="ghost" size="icon" onClick={handlePreviousDay} className="text-muted-foreground hover:text-foreground">
             <ChevronLeft className="h-4 w-4" />
           </Button>
           <div className="text-center">
-            <h2 className="text-base font-semibold text-white">
+            <h2 className="text-base font-semibold text-foreground">
               {isToday(date) ? "Today's Patrol" : format(date, "EEEE")}
             </h2>
             <p className="text-xs text-muted-foreground">
               {format(date, "MMMM d, yyyy")}
             </p>
           </div>
-          <Button variant="ghost" size="icon" onClick={handleNextDay} disabled={!canGoForward} className="text-muted-foreground hover:text-white disabled:opacity-30">
+          <Button variant="ghost" size="icon" onClick={handleNextDay} disabled={!canGoForward} className="text-muted-foreground hover:text-foreground disabled:opacity-30">
             <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
@@ -96,7 +96,7 @@ export default function PatrolRoutePage() {
         </SpiderButton>
         <Button
           variant="outline"
-          className="gap-2 border-white/10 text-muted-foreground hover:text-white hover:bg-white/5"
+          className="gap-2 border-border/30 text-muted-foreground hover:text-foreground hover:bg-muted/50"
           onClick={() => setSheetOpen(true)}
         >
           <Plus className="h-4 w-4" />
@@ -104,7 +104,7 @@ export default function PatrolRoutePage() {
         </Button>
         <Button
           variant="outline"
-          className="gap-2 border-white/10 text-muted-foreground hover:text-white hover:bg-white/5 ml-auto"
+          className="gap-2 border-border/30 text-muted-foreground hover:text-foreground hover:bg-muted/50 ml-auto"
         >
           <Map className="h-4 w-4" />
           Map View
@@ -128,7 +128,7 @@ export default function PatrolRoutePage() {
             {/* Dot on timeline */}
             <div className="relative z-10 flex-shrink-0">
               <div className={`h-3 w-3 rounded-full border-2 ${
-                tasks.length > 0 ? "border-[#E11D48] bg-[#E11D48]/50" : "border-white/10 bg-transparent"
+                tasks.length > 0 ? "border-[#E11D48] bg-[#E11D48]/50" : "border-border/30 bg-transparent"
               }`} />
             </div>
 
@@ -158,12 +158,12 @@ export default function PatrolRoutePage() {
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2">
                               <span className="text-base">{task.task.icon}</span>
-                              <span className="font-medium text-sm text-white truncate">
+                              <span className="font-medium text-sm text-foreground truncate">
                                 {task.task.title}
                               </span>
                               <Badge
                                 variant="outline"
-                                className="text-[10px] border-white/10 text-muted-foreground"
+                                className="text-[10px] border-border/30 text-muted-foreground"
                               >
                                 {CATEGORY_DISTRICTS[task.task.category] || "NYC"}
                               </Badge>

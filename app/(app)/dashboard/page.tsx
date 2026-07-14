@@ -145,11 +145,11 @@ export default function SpiderHQPage() {
         className="flex items-center justify-between"
       >
         <div className="flex items-center gap-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#E11D48]/20 to-[#1D4ED8]/20 border border-white/10">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#E11D48]/20 to-[#1D4ED8]/20 border border-border/30">
             <Shield className="h-6 w-6 text-[#E11D48]" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-white">Spider HQ</h1>
+            <h1 className="text-2xl font-bold text-foreground">Spider HQ</h1>
             <p className="text-sm text-muted-foreground flex items-center gap-2">
               <span className="inline-block h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
               Command Center Active
@@ -161,11 +161,11 @@ export default function SpiderHQPage() {
 
       {/* Date Navigator */}
       <div className="flex items-center justify-between glass-panel rounded-xl p-3">
-        <Button variant="ghost" size="icon" onClick={handlePreviousDay} className="text-muted-foreground hover:text-white">
+        <Button variant="ghost" size="icon" onClick={handlePreviousDay} className="text-muted-foreground hover:text-foreground">
           <ChevronLeft className="h-4 w-4" />
         </Button>
         <div className="text-center">
-          <h2 className="text-base font-semibold text-white">
+          <h2 className="text-base font-semibold text-foreground">
             {isToday(date) ? "Today's Mission" : date.toLocaleDateString("en-US", { weekday: "long" })}
           </h2>
           <p className="text-xs text-muted-foreground">
@@ -177,7 +177,7 @@ export default function SpiderHQPage() {
           size="icon"
           onClick={handleNextDay}
           disabled={!canGoForward}
-          className="text-muted-foreground hover:text-white disabled:opacity-30"
+          className="text-muted-foreground hover:text-foreground disabled:opacity-30"
         >
           <ChevronRight className="h-4 w-4" />
         </Button>
@@ -260,13 +260,13 @@ export default function SpiderHQPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="relative flex flex-col items-center justify-center overflow-hidden rounded-2xl border border-white/5 bg-gradient-to-br from-[#0F172A]/90 via-[#0F172A]/70 to-[#1D4ED8]/10 p-6 shadow-xl"
+            className="relative flex flex-col items-center justify-center overflow-hidden rounded-2xl border border-border/50 bg-gradient-to-br from-card/90 via-card/70 to-[#1D4ED8]/10 p-6 shadow-xl"
           >
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#E11D48]/5 via-transparent to-[#A855F7]/5" />
             <div className="relative flex flex-col items-center">
               <ProgressRing percentage={completionPercentage} size={180}>
                 <div className="text-center">
-                  <span className="text-3xl font-bold text-white">{completedCount}</span>
+                  <span className="text-3xl font-bold text-foreground">{completedCount}</span>
                   <span className="text-muted-foreground">/{totalCount}</span>
                   <p className="text-xs text-muted-foreground">missions complete</p>
                 </div>

@@ -153,11 +153,11 @@ export default function MissionsPage() {
         className="flex items-center justify-between"
       >
         <div className="flex items-center gap-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#A855F7]/20 to-[#E11D48]/20 border border-white/10">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#A855F7]/20 to-[#E11D48]/20 border border-border/30">
             <Target className="h-6 w-6 text-[#A855F7]" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-white">Mission Board</h1>
+            <h1 className="text-2xl font-bold text-foreground">Mission Board</h1>
             <p className="text-sm text-muted-foreground">
               {activeTaskCount} active {activeTaskCount === 1 ? "mission" : "missions"}
             </p>
@@ -168,7 +168,7 @@ export default function MissionsPage() {
             variant="ghost"
             size="sm"
             onClick={() => setViewMode(viewMode === "mission" ? "list" : "mission")}
-            className="text-xs text-muted-foreground hover:text-white"
+            className="text-xs text-muted-foreground hover:text-foreground"
           >
             {viewMode === "mission" ? "📋 List View" : "🕷️ Mission View"}
           </Button>
@@ -211,7 +211,7 @@ export default function MissionsPage() {
             placeholder="Scan for missions..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-9 bg-white/5 border-white/10 text-white placeholder:text-muted-foreground"
+            className="pl-9 bg-muted/50 border-border/30 text-foreground placeholder:text-muted-foreground"
           />
         </div>
 
@@ -256,14 +256,14 @@ export default function MissionsPage() {
         {isLoading ? (
           <div className="grid gap-3 sm:grid-cols-2">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-24 rounded-xl bg-white/5 animate-pulse" />
+              <div key={i} className="h-24 rounded-xl bg-muted/50 animate-pulse" />
             ))}
           </div>
         ) : filteredActiveTasks.length === 0 ? (
           <EmptyState
             icon={Target}
             title="No Active Missions"
-            description="The city is peaceful. Create a new mission to start protecting New York."
+            description="The city is peaceful. Create a new mission to start protecting Bengaluru."
             action={{
               label: "New Mission",
               onClick: openCreateSheet,
@@ -335,7 +335,7 @@ export default function MissionsPage() {
         <div className="space-y-3">
           <button
             type="button"
-            className="flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-white transition-colors"
+            className="flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors"
             onClick={() => setShowInactive(!showInactive)}
           >
             <Skull className="h-4 w-4" />

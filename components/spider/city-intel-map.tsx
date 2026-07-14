@@ -39,7 +39,7 @@ export function CityIntelMap({ className, districts = [] }: CityIntelMapProps) {
       </div>
 
       {/* Map Grid */}
-      <div className="radar-grid relative aspect-[4/3] rounded-lg overflow-hidden border border-white/5">
+      <div className="radar-grid relative aspect-[4/3] rounded-lg overflow-hidden border border-border/50">
         {/* Simplified NYC boroughs layout */}
         <div className="absolute inset-0 p-2 grid grid-cols-3 grid-rows-2 gap-2">
           {districts.slice(0, 6).map((district, i) => (

@@ -74,6 +74,7 @@ export class DailyLogRepository {
         taskId: id,
         completed: false,
       })),
+      skipDuplicates: true,
     })
 
     const refreshed = await this.findByDate(userId, date)
@@ -117,6 +118,9 @@ export class DailyLogRepository {
     taskId: string,
     completed: boolean
   ): Promise<DailyLogItem> {
+    const task = await taskRepository.findById(taskId, userId)
+    if (!task) throw new Error('Task not found or unauthorized')
+
     const item = await db.dailyLogItem.upsert({
       where: {
         dailyLogId_taskId: {

@@ -32,7 +32,7 @@ export function EmptyState({
       className={cn(
         "flex flex-col items-center justify-center rounded-xl p-8 text-center",
         variant === "spider"
-          ? "border border-white/5 bg-gradient-to-b from-white/[0.03] to-transparent backdrop-blur-sm"
+          ? "border border-border/50 bg-gradient-to-b from-foreground/[0.03] to-transparent backdrop-blur-sm"
           : "border border-dashed bg-muted/30",
         className
       )}
@@ -53,7 +53,7 @@ export function EmptyState({
           variant === "spider" ? "text-[#E11D48]" : "text-muted-foreground"
         )} />
       </motion.div>
-      <h3 className="mb-1 text-sm font-semibold text-white">{title}</h3>
+      <h3 className="mb-1 text-sm font-semibold text-foreground">{title}</h3>
       <p className="mb-4 max-w-xs text-xs text-muted-foreground">{description}</p>
       {action && (
         <Button

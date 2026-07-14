@@ -1,23 +1,14 @@
 import { NextResponse } from "next/server"
 import { authenticated } from "@/lib/api-middleware"
 import { db } from "@/lib/db"
+import { dailyLogRepository } from "@/lib/repositories"
 import { startOfDay, startOfWeek, endOfWeek } from "date-fns"
 
 export const GET = authenticated(async (_req, { userId }) => {
   const today = startOfDay(new Date())
 
   const [dailyLog, tasks, streaks, achievements, settings] = await Promise.all([
-    db.dailyLog.findUnique({
-      where: { userId_date: { userId, date: today } },
-      include: {
-        items: {
-          include: {
-            task: { select: { id: true, title: true, color: true, icon: true, category: true } },
-          },
-          orderBy: { createdAt: "asc" },
-        },
-      },
-    }),
+    dailyLogRepository.findOrCreate(userId, today),
     db.task.findMany({
       where: { userId },
       orderBy: { sortOrder: "asc" },

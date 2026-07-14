@@ -18,7 +18,7 @@ export function Header({ className }: HeaderProps) {
   return (
     <header
       className={cn(
-        "flex h-16 items-center justify-between border-b border-white/5 bg-[#0A0F1E]/60 backdrop-blur-xl px-4 lg:px-8 relative z-10",
+        "flex h-16 items-center justify-between border-b border-border/50 bg-card/60 backdrop-blur-xl px-4 lg:px-8 relative z-10",
         className
       )}
     >
@@ -28,7 +28,7 @@ export function Header({ className }: HeaderProps) {
           <SpiderSense />
         </div>
         <div>
-          <h1 className="text-lg font-semibold bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">
+          <h1 className="text-lg font-semibold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
             {format(today, "EEEE, MMMM d")}
           </h1>
           <p className="text-xs text-muted-foreground flex items-center gap-1.5">
@@ -45,7 +45,7 @@ export function Header({ className }: HeaderProps) {
         <NotificationBell />
         <button
           onClick={() => window.dispatchEvent(new CustomEvent('dayflow:show-help'))}
-          className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-xs font-bold text-muted-foreground hover:text-white hover:bg-white/10 transition-colors"
+          className="flex h-8 w-8 items-center justify-center rounded-lg border border-border/30 bg-muted/50 text-xs font-bold text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-colors"
           title="Keyboard shortcuts"
         >
           <Keyboard className="h-3.5 w-3.5" />

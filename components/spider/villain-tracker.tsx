@@ -74,19 +74,19 @@ export function VillainTracker({ className }: { className?: string }) {
                   hover
                   className={cn(
                     "p-5 border-l-4",
-                    borderColors[category] || "border-white/10",
+                    borderColors[category] || "border-border/30",
                   )}
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-3">
                       <div className={cn(
                         "flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br",
-                        threatColors[category] || "bg-black/40",
+                        threatColors[category] || "bg-card/40",
                       )}>
                         <span className="text-2xl">{getCategoryEmoji(category)}</span>
                       </div>
                       <div>
-                        <h3 className="text-lg font-bold text-white">{category}</h3>
+                        <h3 className="text-lg font-bold text-foreground">{category}</h3>
                         <p className="text-xs text-muted-foreground">📍 {district}</p>
                       </div>
                     </div>
@@ -128,14 +128,14 @@ export function VillainTracker({ className }: { className?: string }) {
                 <strong className="text-cyan-400">{Object.keys(CATEGORY_DISTRICTS).length} districts</strong> mapped
               </span>
             </div>
-            <div className="h-4 w-px bg-white/10" />
+            <div className="h-4 w-px bg-border/30" />
             <div className="flex items-center gap-2">
               <div className="h-2 w-2 rounded-full bg-[#A855F7]" />
               <span className="text-xs text-muted-foreground">
                 <strong className="text-purple-400">{CATEGORY_ENTRIES.length} threat types</strong> active
               </span>
             </div>
-            <div className="h-4 w-px bg-white/10" />
+            <div className="h-4 w-px bg-border/30" />
             <div className="flex items-center gap-2">
               <div className="h-2 w-2 rounded-full bg-green-400" />
               <span className="text-xs text-muted-foreground">

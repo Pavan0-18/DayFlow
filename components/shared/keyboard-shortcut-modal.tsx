@@ -46,7 +46,7 @@ export function KeyboardShortcutModal() {
               <span className="text-sm text-muted-foreground">{shortcut.description}</span>
               <kbd className="flex items-center gap-1">
                 {shortcut.keys.map((key, i) => (
-                  <span key={i} className="inline-flex items-center rounded-md border border-white/10 bg-white/5 px-2 py-0.5 text-xs font-medium text-white">
+                  <span key={i} className="inline-flex items-center rounded-md border border-border/30 bg-muted/50 px-2 py-0.5 text-xs font-medium text-foreground">
                     {key}
                   </span>
                 ))}

@@ -47,13 +47,13 @@ export function SpiderSense({
             "h-24 w-24 rounded-full border-2 transition-all duration-500",
             isActive
               ? "border-red-500/50 shadow-[0_0_30px_rgba(225,29,72,0.3)]"
-              : "border-white/10",
+              : "border-border/30",
           )}
         >
-          <div className="absolute inset-2 rounded-full border border-white/5" />
-          <div className="absolute inset-4 rounded-full border border-white/5" />
-          <div className="absolute inset-6 rounded-full border border-white/5" />
-          <div className="absolute inset-8 rounded-full border border-white/5" />
+          <div className="absolute inset-2 rounded-full border border-border/50" />
+          <div className="absolute inset-4 rounded-full border border-border/50" />
+          <div className="absolute inset-6 rounded-full border border-border/50" />
+          <div className="absolute inset-8 rounded-full border border-border/50" />
         </div>
 
         {/* Pulse Rings */}

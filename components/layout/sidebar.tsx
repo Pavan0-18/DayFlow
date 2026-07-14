@@ -27,7 +27,7 @@ export function Sidebar({ className }: SidebarProps) {
   return (
     <div
       className={cn(
-        "flex flex-col border-r border-white/5 bg-[#0A0F1E]/90 backdrop-blur-xl transition-all duration-300 relative overflow-hidden",
+        "flex flex-col border-r border-border/50 bg-card/90 backdrop-blur-xl transition-all duration-300 relative h-screen sticky top-0 self-start",
         collapsed ? "w-20" : "w-64",
         className
       )}
@@ -38,7 +38,7 @@ export function Sidebar({ className }: SidebarProps) {
       </div>
 
       {/* Logo / Spider-HQ */}
-      <div className="relative z-10 flex h-16 items-center justify-between border-b border-white/5 px-4">
+      <div className="relative z-10 flex h-16 items-center justify-between border-b border-border/50 px-4">
         {!collapsed ? (
           <Link href="/dashboard" className="flex items-center gap-2 group">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-[#E11D48] to-[#1D4ED8] text-white font-bold text-sm shadow-lg group-hover:shadow-[#E11D48]/30 transition-shadow">
@@ -58,7 +58,7 @@ export function Sidebar({ className }: SidebarProps) {
           variant="ghost"
           size="icon"
           onClick={() => setCollapsed(!collapsed)}
-          className={cn("h-7 w-7 text-muted-foreground hover:text-white", collapsed && "mx-auto")}
+          className={cn("h-7 w-7 text-muted-foreground hover:text-foreground", collapsed && "mx-auto")}
         >
           {collapsed ? <ChevronRight className="h-3.5 w-3.5" /> : <ChevronLeft className="h-3.5 w-3.5" />}
         </Button>
@@ -96,7 +96,7 @@ export function Sidebar({ className }: SidebarProps) {
       </ScrollArea>
 
       {/* Bottom indicator */}
-      <div className="relative z-10 border-t border-white/5 p-3">
+      <div className="relative z-10 border-t border-border/50 p-3">
         {!collapsed && (
           <div className="flex items-center gap-2 px-2">
             <div className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />

@@ -1,6 +1,7 @@
 import { db } from '../db'
 import { ScheduledTask, Priority } from '@prisma/client'
 import { CreateScheduledTaskInput, UpdateScheduledTaskInput } from '../validations/schedule.schema'
+import { taskRepository } from './task.repository'
 
 export interface ScheduledTaskWithTask extends ScheduledTask {
   task: {
@@ -41,35 +42,31 @@ export class ScheduleRepository {
     return task
   }
 
-  async create(data: CreateScheduledTaskInput, userId: string): Promise<ScheduledTask> {
-    const task = await db.scheduledTask.create({
+  async create(data: Omit<CreateScheduledTaskInput, 'priority'> & { priority?: Priority }, userId: string): Promise<ScheduledTask> {
+    const task = await taskRepository.findById(data.taskId, userId)
+    if (!task) throw new Error('Task not found or unauthorized')
+
+    const scheduled = await db.scheduledTask.create({
       data: {
         ...data,
         userId,
+        priority: data.priority ?? Priority.MEDIUM,
       },
     })
-    return task
+    return scheduled
   }
 
-  async update(id: string, data: UpdateScheduledTaskInput, userId: string): Promise<ScheduledTask> {
-    const existing = await this.findById(id, userId)
-    if (!existing) {
-      throw new Error('Scheduled task not found')
-    }
+  async update(id: string, data: Omit<UpdateScheduledTaskInput, 'id'>, userId: string): Promise<ScheduledTask> {
     const task = await db.scheduledTask.update({
-      where: { id },
+      where: { id, userId },
       data,
     })
     return task
   }
 
   async delete(id: string, userId: string): Promise<void> {
-    const existing = await this.findById(id, userId)
-    if (!existing) {
-      throw new Error('Scheduled task not found')
-    }
     await db.scheduledTask.delete({
-      where: { id },
+      where: { id, userId },
     })
   }
 
@@ -116,7 +113,7 @@ export class ScheduleRepository {
     return conflicts
   }
 
-  async createMany(data: CreateScheduledTaskInput[], userId: string): Promise<number> {
+  async createMany(data: (Omit<CreateScheduledTaskInput, 'priority'> & { priority?: Priority })[], userId: string): Promise<number> {
     const result = await db.scheduledTask.createMany({
       data: data.map((item) => ({ ...item, userId })),
     })

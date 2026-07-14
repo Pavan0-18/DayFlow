@@ -77,7 +77,7 @@ export function SpiderVerseLoader({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 1.05 }}
           transition={{ duration: 0.5 }}
-          className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-[#020617]"
+          className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-background"
         >
           {/* Background gradient */}
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#020617] via-[#0a0f1e] to-[#020617]" />

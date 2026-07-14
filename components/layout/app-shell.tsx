@@ -23,7 +23,7 @@ interface AppShellProps {
 
 export function AppShell({ children, className }: AppShellProps) {
   return (
-    <div className="flex min-h-screen bg-[#020617] spider-web-bg">
+    <div className="flex h-screen overflow-hidden bg-background spider-web-bg">
       <KeyboardShortcutModal />
       {/* Ambient particle field */}
       <div className="pointer-events-none fixed inset-0 z-0">
@@ -34,7 +34,7 @@ export function AppShell({ children, className }: AppShellProps) {
       <Sidebar className="hidden lg:flex relative z-10" />
 
       {/* Main content area */}
-      <div className="relative z-10 flex flex-1 flex-col">
+      <div className="relative z-10 flex flex-1 flex-col overflow-y-auto">
         <Header />
         
         <main className={cn("flex-1 p-4 pb-24 lg:p-8", className)}>

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
-import { withAuth, withRateLimit } from "@/lib/api-middleware"
+import { withAuth, withRateLimit, withValidation } from "@/lib/api-middleware"
 import { scheduleRepository } from "@/lib/repositories"
+import { createScheduledTaskSchema } from "@/lib/validations/schedule.schema"
 import { startOfDay } from "date-fns"
 
 export const GET = withAuth(withRateLimit(async (req, { userId }) => {
@@ -12,11 +13,11 @@ export const GET = withAuth(withRateLimit(async (req, { userId }) => {
   return NextResponse.json({ data: scheduledTasks })
 }))
 
-export const POST = withAuth(withRateLimit(async (req, { userId }) => {
-  const body = await req.json()
+export const POST = withAuth(withRateLimit(withValidation(createScheduledTaskSchema, async (req, { userId, body }) => {
+  const normalizedDate = startOfDay(new Date(body.date))
   const conflicts = await scheduleRepository.checkConflicts(
     userId,
-    startOfDay(new Date(body.date)),
+    normalizedDate,
     body.startTime,
     body.endTime
   )
@@ -28,4 +29,4 @@ export const POST = withAuth(withRateLimit(async (req, { userId }) => {
   }
   const scheduledTask = await scheduleRepository.create(body, userId)
   return NextResponse.json({ data: scheduledTask }, { status: 201 })
-}))
+})))

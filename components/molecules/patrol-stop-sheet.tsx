@@ -72,9 +72,9 @@ export function PatrolStopSheet({ open, onOpenChange, date }: PatrolStopSheetPro
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="w-full sm:max-w-lg border-l border-white/10 bg-black/95 backdrop-blur-xl">
+      <SheetContent className="w-full sm:max-w-lg border-l border-border/30 bg-card/95 backdrop-blur-xl">
         <SheetHeader>
-          <SheetTitle className="text-white flex items-center gap-2">
+          <SheetTitle className="text-foreground flex items-center gap-2">
             <Target className="h-5 w-5 text-[#E11D48]" />
             Add Patrol Stop
           </SheetTitle>
@@ -88,29 +88,29 @@ export function PatrolStopSheet({ open, onOpenChange, date }: PatrolStopSheetPro
             <div className="space-y-4">
               <GlassPanel variant="default" className="p-4">
                 <div className="text-sm text-muted-foreground mb-2">Selected mission</div>
-                <p className="text-white font-medium">
+                <p className="text-foreground font-medium">
                   {activeTasks.find((t) => t.id === selectedTask)?.icon}{" "}
                   {activeTasks.find((t) => t.id === selectedTask)?.title}
                 </p>
               </GlassPanel>
 
               <div className="space-y-2">
-                <Label className="text-white text-sm">Patrol time</Label>
+                <Label className="text-foreground text-sm">Patrol time</Label>
                 <div className="flex items-center gap-2">
                   <Clock className="h-4 w-4 text-muted-foreground" />
                   <Input
                     type="time"
                     value={startTime}
                     onChange={(e) => setStartTime(e.target.value)}
-                    className="w-32 bg-white/5 border-white/10 text-white"
+                    className="w-32 bg-muted/50 border-border/30 text-foreground"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label className="text-white text-sm">Priority level</Label>
+                <Label className="text-foreground text-sm">Priority level</Label>
                 <Select value={priority} onValueChange={(v) => setPriority(v as Priority)}>
-                  <SelectTrigger className="bg-white/5 border-white/10 text-white w-40">
+                  <SelectTrigger className="bg-muted/50 border-border/30 text-foreground w-40">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -122,7 +122,7 @@ export function PatrolStopSheet({ open, onOpenChange, date }: PatrolStopSheetPro
               </div>
 
               <div className="flex gap-2 pt-2">
-                <Button variant="outline" onClick={() => setSelectedTask(null)} className="border-white/10">
+                <Button variant="outline" onClick={() => setSelectedTask(null)} className="border-border/30">
                   Back
                 </Button>
                 <Button
@@ -143,7 +143,7 @@ export function PatrolStopSheet({ open, onOpenChange, date }: PatrolStopSheetPro
                   placeholder="Search missions..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="pl-9 bg-white/5 border-white/10 text-white placeholder:text-muted-foreground"
+                  className="pl-9 bg-muted/50 border-border/30 text-foreground placeholder:text-muted-foreground"
                 />
               </div>
 
@@ -159,12 +159,12 @@ export function PatrolStopSheet({ open, onOpenChange, date }: PatrolStopSheetPro
                     <button
                       key={task.id}
                       onClick={() => setSelectedTask(task.id)}
-                      className="w-full text-left rounded-xl border border-white/5 bg-white/5 p-3 hover:bg-white/10 transition-colors"
+                      className="w-full text-left rounded-xl border border-border/50 bg-muted/50 p-3 hover:bg-accent/10 transition-colors"
                     >
                       <div className="flex items-center gap-3">
                         <span className="text-xl">{task.icon}</span>
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-white truncate">{task.title}</p>
+                          <p className="text-sm font-medium text-foreground truncate">{task.title}</p>
                           <p className="text-xs text-muted-foreground">{task.category}</p>
                         </div>
                       </div>

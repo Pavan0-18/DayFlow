@@ -45,11 +45,11 @@ export default function CaseFilesPage() {
         className="flex items-center justify-between"
       >
         <div className="flex items-center gap-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#F59E0B]/20 to-[#E11D48]/20 border border-white/10">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#F59E0B]/20 to-[#E11D48]/20 border border-border/30">
             <FileText className="h-6 w-6 text-[#F59E0B]" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-white">Case Files</h1>
+            <h1 className="text-2xl font-bold text-foreground">Case Files</h1>
             <p className="text-sm text-muted-foreground flex items-center gap-2">
               <span className="inline-block h-1.5 w-1.5 rounded-full bg-yellow-400 animate-pulse" />
               Classified Intelligence
@@ -115,7 +115,7 @@ export default function CaseFilesPage() {
         {insightsLoading ? (
           <div className="grid gap-4 sm:grid-cols-2">
             {[1, 2, 3, 4].map((i) => (
-              <Skeleton key={i} className="h-32 rounded-2xl bg-white/5" />
+              <Skeleton key={i} className="h-32 rounded-2xl bg-muted/50" />
             ))}
           </div>
         ) : insights ? (
@@ -139,7 +139,7 @@ export default function CaseFilesPage() {
 
       {/* Report Dossiers */}
       <Tabs defaultValue="achievements" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-4 rounded-xl bg-white/5 p-1 border border-white/5">
+        <TabsList className="grid w-full grid-cols-4 rounded-xl bg-muted/50 p-1 border border-border/50">
           <TabsTrigger value="daily" className="rounded-lg data-[state=active]:bg-[#E11D48]/20 data-[state=active]:text-[#E11D48] text-xs">
             Daily Log
           </TabsTrigger>
@@ -158,7 +158,7 @@ export default function CaseFilesPage() {
           <GlassPanel variant="holographic" className="p-6">
             <div className="flex items-start justify-between">
               <div>
-                <h3 className="text-lg font-semibold text-white">Daily Patrol Log</h3>
+                <h3 className="text-lg font-semibold text-foreground">Daily Patrol Log</h3>
                 <p className="text-sm text-muted-foreground mt-1">
                   Review your daily completion rates and mission breakdowns across the city.
                 </p>
@@ -167,7 +167,7 @@ export default function CaseFilesPage() {
             </div>
             <div className="mt-4">
               <Link href="/reports/daily">
-                <Button variant="outline" className="gap-2 border-white/10 text-muted-foreground hover:text-white">
+                <Button variant="outline" className="gap-2 border-border/30 text-muted-foreground hover:text-foreground">
                   <Eye className="h-4 w-4" />
                   View Full Report
                   <ChevronRight className="h-3 w-3" />
@@ -181,7 +181,7 @@ export default function CaseFilesPage() {
           <GlassPanel variant="holographic" className="p-6">
             <div className="flex items-start justify-between">
               <div>
-                <h3 className="text-lg font-semibold text-white">Weekly Intelligence Brief</h3>
+                <h3 className="text-lg font-semibold text-foreground">Weekly Intelligence Brief</h3>
                 <p className="text-sm text-muted-foreground mt-1">
                   Analyze your weekly trends and consistency scores across patrol patterns.
                 </p>
@@ -190,7 +190,7 @@ export default function CaseFilesPage() {
             </div>
             <div className="mt-4">
               <Link href="/reports/weekly">
-                <Button variant="outline" className="gap-2 border-white/10 text-muted-foreground hover:text-white">
+                <Button variant="outline" className="gap-2 border-border/30 text-muted-foreground hover:text-foreground">
                   <Eye className="h-4 w-4" />
                   View Full Report
                   <ChevronRight className="h-3 w-3" />
@@ -204,7 +204,7 @@ export default function CaseFilesPage() {
           <GlassPanel variant="holographic" className="p-6">
             <div className="flex items-start justify-between">
               <div>
-                <h3 className="text-lg font-semibold text-white">Monthly Hero Dossier</h3>
+                <h3 className="text-lg font-semibold text-foreground">Monthly Hero Dossier</h3>
                 <p className="text-sm text-muted-foreground mt-1">
                   See your monthly impact with heatmaps, category breakdowns, and threat analysis.
                 </p>
@@ -213,7 +213,7 @@ export default function CaseFilesPage() {
             </div>
             <div className="mt-4">
               <Link href="/reports/monthly">
-                <Button variant="outline" className="gap-2 border-white/10 text-muted-foreground hover:text-white">
+                <Button variant="outline" className="gap-2 border-border/30 text-muted-foreground hover:text-foreground">
                   <Eye className="h-4 w-4" />
                   View Full Report
                   <ChevronRight className="h-3 w-3" />
@@ -229,7 +229,7 @@ export default function CaseFilesPage() {
               Recent Hero Awards
             </h3>
             <Link href="/reports/achievements">
-              <Button variant="ghost" size="sm" className="gap-1 text-muted-foreground hover:text-white">
+              <Button variant="ghost" size="sm" className="gap-1 text-muted-foreground hover:text-foreground">
                 View all
                 <ChevronRight className="h-4 w-4" />
               </Button>
@@ -239,7 +239,7 @@ export default function CaseFilesPage() {
           {achievementsLoading ? (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {[1, 2, 3, 4].map((i) => (
-                <Skeleton key={i} className="h-40 rounded-2xl bg-white/5" />
+                <Skeleton key={i} className="h-40 rounded-2xl bg-muted/50" />
               ))}
             </div>
           ) : (

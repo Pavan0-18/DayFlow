@@ -89,7 +89,7 @@ function JoinSpiderNetwork() {
                   {isAuthenticated ? "Return to Command Center" : "Swing Into Action"}
                   <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </span>
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-transparent via-foreground/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
               </Button>
             </Link>
           </div>
@@ -133,23 +133,21 @@ function FloatingAuthBar() {
   if (status === "loading" || !session?.user) return null
 
   return (
-    <div className="fixed top-4 right-4 z-50">
-      <motion.div
-        initial={{ opacity: 0, x: 20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 1 }}
-      >
-        <Link href="/dashboard">
-          <Button
-            size="sm"
-            className="gap-2 bg-white/10 backdrop-blur-md border border-white/10 text-white hover:bg-white/20 text-xs"
-          >
-            <LayoutDashboard className="h-3.5 w-3.5" />
-            {session.user.name?.split(" ")[0] || "Hero"} — HQ
-          </Button>
-        </Link>
-      </motion.div>
-    </div>
+    <motion.div
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: 1 }}
+    >
+      <Link href="/dashboard">
+        <Button
+          size="sm"
+          className="gap-2 bg-card/50 backdrop-blur-md border border-border/30 text-foreground hover:bg-accent/10 text-xs"
+        >
+          <LayoutDashboard className="h-3.5 w-3.5" />
+          {session.user.name?.split(" ")[0] || "Hero"} — HQ
+        </Button>
+      </Link>
+    </motion.div>
   )
 }
 
@@ -160,7 +158,7 @@ export default function LandingPage() {
 
   if (isLoading) {
     return (
-      <main className="flex-1 bg-[#020617]">
+      <main className="flex-1 bg-background">
         <div className="flex min-h-screen items-center justify-center">
           <div className="text-center">
             <div className="mb-4 flex justify-center">
@@ -182,8 +180,28 @@ export default function LandingPage() {
 
   return (
     <main className="flex-1">
-      {/* Floating auth bar for returning users */}
-      <FloatingAuthBar />
+      {/* Floating auth bar for returning users + Skip to login */}
+      <div className="fixed top-4 right-4 z-50 flex items-center gap-2">
+        <FloatingAuthBar />
+        {status === "unauthenticated" && (
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.5 }}
+          >
+            <Link href="/login">
+              <Button
+                size="sm"
+                variant="ghost"
+                className="gap-1.5 text-xs text-muted-foreground hover:text-foreground"
+              >
+                Skip
+                <ArrowRight className="h-3 w-3" />
+              </Button>
+            </Link>
+          </motion.div>
+        )}
+      </div>
 
       {/* Scene 1: Cinematic Entry */}
       <CinematicHero />

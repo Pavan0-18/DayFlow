@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server"
-import { withAuth, withRateLimit } from "@/lib/api-middleware"
+import { withAuth, withRateLimit, withValidation } from "@/lib/api-middleware"
 import { dailyLogRepository } from "@/lib/repositories"
 import { achievementService } from "@/lib/services"
+import { toggleLogItemSchema } from "@/lib/validations/log.schema"
 import { fromDateKey } from "@/lib/date-utils"
 
-export const POST = withAuth(withRateLimit(async (req, { userId }) => {
-  const { taskId, date, completed } = await req.json()
+export const POST = withAuth(withRateLimit(withValidation(toggleLogItemSchema, async (req, { userId, body }) => {
+  const { taskId, date, completed } = body
   const normalizedDate = fromDateKey(date)
   const log = await dailyLogRepository.findOrCreate(userId, normalizedDate)
   await dailyLogRepository.toggleItem(userId, log.id, taskId, completed)
@@ -19,4 +20,4 @@ export const POST = withAuth(withRateLimit(async (req, { userId }) => {
     data: { success: true },
     achievements: unlockedAchievements,
   })
-}))
+})))

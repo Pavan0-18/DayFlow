@@ -1,4 +1,5 @@
 import { Priority } from '@prisma/client'
+import { db } from '../db'
 import { taskRepository, scheduleRepository } from '../repositories'
 
 export interface ScheduledTaskSuggestion {
@@ -134,20 +135,24 @@ export class AutoScheduleService {
   }
 
   async applySchedule(userId: string, date: Date, suggestions: ScheduledTaskSuggestion[]): Promise<void> {
-    await scheduleRepository.deleteByDate(userId, date)
-    if (suggestions.length === 0) return
-    const dateStr = date.toISOString()
-    await scheduleRepository.createMany(
-      suggestions.map((s) => ({
-        taskId: s.taskId,
-        date: dateStr,
-        startTime: s.startTime,
-        endTime: s.endTime,
-        priority: s.priority,
-        duration: s.duration,
-      })),
-      userId
-    )
+    await db.$transaction(async (tx) => {
+      await tx.scheduledTask.deleteMany({
+        where: { userId, date },
+      })
+      if (suggestions.length === 0) return
+      const dateStr = date.toISOString()
+      await tx.scheduledTask.createMany({
+        data: suggestions.map((s) => ({
+          taskId: s.taskId,
+          userId,
+          date: dateStr,
+          startTime: s.startTime,
+          endTime: s.endTime,
+          priority: s.priority,
+          duration: s.duration,
+        })),
+      })
+    })
   }
 }
 
