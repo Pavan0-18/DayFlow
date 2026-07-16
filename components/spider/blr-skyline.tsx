@@ -2,12 +2,12 @@
 
 import { cn } from "@/lib/utils"
 
-interface NySkylineProps {
+interface BlrSkylineProps {
   className?: string
   variant?: "day" | "night" | "sunset"
 }
 
-export function NySkyline({ className, variant = "night" }: NySkylineProps) {
+export function BlrSkyline({ className, variant = "night" }: BlrSkylineProps) {
   const buildings = [
     { h: 40, w: 20, x: 0 },
     { h: 55, w: 15, x: 22 },

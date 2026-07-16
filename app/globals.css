@@ -217,12 +217,12 @@
   pointer-events: none;
 }
 
-/* NY Skyline Background */
-.ny-skyline {
+/* Bengaluru Skyline Background */
+.blr-skyline {
   position: relative;
 }
 
-.ny-skyline::before {
+.blr-skyline::before {
   content: '';
   position: absolute;
   bottom: 0;

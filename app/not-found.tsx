@@ -2,14 +2,14 @@ import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Home, Compass } from "lucide-react"
-import { NySkyline } from "@/components/spider/ny-skyline"
+import { BlrSkyline } from "@/components/spider/blr-skyline"
 
 export default function NotFound() {
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background p-4">
       {/* Background */}
       <div className="absolute inset-0 opacity-30">
-        <NySkyline variant="night" />
+        <BlrSkyline variant="night" />
       </div>
 
       {/* Content */}

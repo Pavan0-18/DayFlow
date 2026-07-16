@@ -168,7 +168,7 @@ export default function PatrolRoutePage() {
                                 variant="outline"
                                 className="text-[10px] border-border/30 text-muted-foreground"
                               >
-                                {CATEGORY_DISTRICTS[task.task.category] || "NYC"}
+                                {CATEGORY_DISTRICTS[task.task.category] || "Bengaluru"}
                               </Badge>
                             </div>
                             <div className="mt-1.5 flex items-center gap-2">

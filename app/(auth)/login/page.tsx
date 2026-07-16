@@ -7,7 +7,7 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Chrome, Loader2, Shield } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
-import { NySkyline } from "@/components/spider/ny-skyline"
+import { BlrSkyline } from "@/components/spider/blr-skyline"
 import { SpiderLoader } from "@/components/spider/spider-loader"
 
 const AUTH_ERRORS: Record<string, string> = {
@@ -177,9 +177,9 @@ function LoginContent() {
 export default function LoginPage() {
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background">
-      {/* NYC Skyline Background */}
+      {/* Bengaluru Skyline Background */}
       <div className="absolute inset-0">
-        <NySkyline variant="night" />
+        <BlrSkyline variant="night" />
       </div>
 
       {/* Rain effect */}

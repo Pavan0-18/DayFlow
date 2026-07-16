@@ -23,7 +23,7 @@ const steps: Step[] = [
   {
     icon: <Target className="h-8 w-8" />,
     title: "Create & Manage Missions",
-    description: "Head to the Mission Board to create tasks organized by category. Each category maps to a NYC district. Drag to reorder, click to complete.",
+    description: "Head to the Mission Board to create tasks organized by category. Each category maps to a Bengaluru district. Drag to reorder, click to complete.",
   },
   {
     icon: <Calendar className="h-8 w-8" />,

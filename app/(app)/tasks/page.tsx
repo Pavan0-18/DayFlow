@@ -395,7 +395,7 @@ export default function MissionsPage() {
                     threatLevel={categoryThreatLevel}
                     priority={categoryPriority}
                     villain={CATEGORY_THREAT_TYPES[task.category] || "Unknown Threat"}
-                    location={CATEGORY_DISTRICTS[task.category] || "NYC"}
+                    location={CATEGORY_DISTRICTS[task.category] || "Bengaluru"}
                   />
                 </motion.div>
               )

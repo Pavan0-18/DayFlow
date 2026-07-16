@@ -62,7 +62,7 @@ export function VillainTracker({ className }: { className?: string }) {
           className="mt-12 grid gap-4 sm:grid-cols-2"
         >
           {CATEGORY_ENTRIES.map(([category, threat], index) => {
-            const district = CATEGORY_DISTRICTS[category] || "NYC"
+            const district = CATEGORY_DISTRICTS[category] || "Bengaluru"
             return (
               <div
                 key={category}

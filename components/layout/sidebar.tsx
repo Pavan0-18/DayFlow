@@ -9,7 +9,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
 import { SpiderNav } from "@/components/spider/spider-nav"
 import { RankBadge, getRankFromXp } from "@/components/spider/rank-badge"
-import { NySkyline } from "@/components/spider/ny-skyline"
+import { BlrSkyline } from "@/components/spider/blr-skyline"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { useStreaks } from "@/hooks/use-streak"
 import { motion } from "framer-motion"
@@ -34,7 +34,7 @@ export function Sidebar({ className }: SidebarProps) {
     >
       {/* Decorative skyline at bottom */}
       <div className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none opacity-30">
-        <NySkyline variant="night" />
+        <BlrSkyline variant="night" />
       </div>
 
       {/* Logo / Spider-HQ */}

@@ -12,18 +12,18 @@ export type ThreatLevelType = "low" | "medium" | "high" | "critical"
 export type MissionPriority = "low" | "medium" | "high" | "critical"
 export type MissionStatus = "alert-received" | "swinging-into-action" | "city-saved" | "villain-interference" | "mission-aborted"
 
-// ─── NYC Districts mapped from task categories ──────────────────────
+// ─── Bengaluru districts mapped from task categories ─────────────────
 export const CATEGORY_DISTRICTS: Record<string, string> = {
-  Health: "Queens Borough",
-  Work: "Financial District",
-  Learning: "Midtown Manhattan",
-  Fitness: "Brooklyn Heights",
-  Personal: "Upper East Side",
-  Mindfulness: "Central Park",
-  Social: "SoHo District",
-  Finance: "Downtown Finance",
-  Creative: "Greenwich Village",
-  Other: "Harlem",
+  Health: "Koramangala",
+  Work: "MG Road",
+  Learning: "Malleshwaram",
+  Fitness: "Cubbon Park",
+  Personal: "Indiranagar",
+  Mindfulness: "Lalbagh",
+  Social: "JP Nagar",
+  Finance: "Whitefield",
+  Creative: "Kumaraswamy Layout",
+  Other: "Electronic City",
 }
 
 // ─── Threat types (villains) mapped from categories ─────────────────

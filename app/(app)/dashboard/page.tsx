@@ -325,7 +325,7 @@ export default function SpiderHQPage() {
         ) : (
           <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
             {items.map((item, index) => {
-              const districtName = CATEGORY_DISTRICTS[item.task.category] || "NYC"
+              const districtName = CATEGORY_DISTRICTS[item.task.category] || "Bengaluru"
               // Derive priority from actual task category rather than array index
               const categoryPriority = categoryToPriority(item.task.category)
               return (
